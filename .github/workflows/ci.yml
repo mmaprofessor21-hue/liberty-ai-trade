@@ -30,8 +30,8 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}/Backend
         run: pytest -q tests
 
-
   frontend-build:
+    name: Frontend build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -50,5 +50,6 @@ jobs:
       - name: Build frontend
         working-directory: Frontend
         run: npm run build
+
 
 
