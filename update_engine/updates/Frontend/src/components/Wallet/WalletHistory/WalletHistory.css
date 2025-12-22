@@ -1,0 +1,36 @@
+/* WALLET HISTORY — SCROLLABLE (LOCKED HEIGHT)
+   SAME HEIGHT AS HOLDINGS
+*/
+
+.wallet-scroll-wrap {
+  width: 100%;
+}
+
+.wallet-scroll-box {
+  width: 100%;
+  max-height: 176px; /* ~6–8 rows depending on font scale */
+  overflow-y: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 170, 255, 0.35);
+  background: rgba(0, 0, 0, 0.18);
+  padding: 10px 12px;
+}
+
+.wallet-scroll-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.wallet-scroll-box::-webkit-scrollbar-thumb {
+  background: rgba(0, 170, 255, 0.45);
+  border-radius: 8px;
+}
+
+.wallet-scroll-box::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.wallet-scroll-empty {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}

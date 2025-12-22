@@ -1,0 +1,82 @@
+/* ============================================================
+   WALLET STATES LAYER
+   ------------------------------------------------------------
+   PURPOSE:
+   - Owns ALL wallet visual states (glow, active indicators)
+   - Loaded AFTER WalletControls.css
+   - NO layout / spacing rules allowed here
+   ------------------------------------------------------------
+   RULE:
+   If it lights up, it lives here.
+   ============================================================ */
+
+/* =========================
+   WALLET SECURITY STATES
+   ========================= */
+
+/* UNSAFE (RED) — stronger */
+.wallet-controls-container .wallet-security-led.wallet-led-unsafe {
+  box-shadow:
+    0 0 18px rgba(255, 40, 40, 0.95),
+    0 0 34px rgba(255, 40, 40, 0.85),
+    0 0 54px rgba(255, 40, 40, 0.75) !important;
+}
+
+/* SAFE (GREEN) — stronger */
+.wallet-controls-container .wallet-security-led.wallet-led-safe {
+  box-shadow:
+    0 0 18px rgba(0, 255, 140, 0.95),
+    0 0 34px rgba(0, 255, 140, 0.85),
+    0 0 54px rgba(0, 255, 140, 0.75) !important;
+}
+
+/* =========================
+   WALLET CONTROLS (CONNECT / DISCONNECT) STATES
+   Uses aria-pressed + data-intent already in WalletControlsBlock.js
+   ========================= */
+
+/* CONNECT (GREEN) — stronger + stays lit */
+.wallet-controls-container button[aria-pressed="true"][data-intent="positive"] {
+  box-shadow:
+    0 0 18px rgba(0, 255, 140, 0.95),
+    0 0 34px rgba(0, 255, 140, 0.85),
+    0 0 54px rgba(0, 255, 140, 0.75) !important;
+  border-color: rgba(0, 255, 140, 0.85) !important;
+}
+
+/* DISCONNECT (RED) — stronger + stays lit */
+.wallet-controls-container button[aria-pressed="true"][data-intent="negative"] {
+  box-shadow:
+    0 0 18px rgba(255, 40, 40, 0.95),
+    0 0 34px rgba(255, 40, 40, 0.85),
+    0 0 54px rgba(255, 40, 40, 0.75) !important;
+  border-color: rgba(255, 40, 40, 0.85) !important;
+}
+
+/* =========================
+   WALLET LOGGING MODE STATES (WalletDataBlock.js classes)
+   .log-btn off|normal|verbose + .active
+   ========================= */
+
+.wallet-controls-container .wallet-data-block .log-btn.active {
+  transform: scale(0.97);
+}
+
+/* OFF — RED */
+.wallet-controls-container .wallet-data-block .log-btn.off.active {
+  box-shadow:
+    0 0 16px rgba(255, 40, 40, 0.95),
+    0 0 30px rgba(255, 40, 40, 0.85),
+    0 0 48px rgba(255, 40, 40, 0.75) !important;
+  border-color: rgba(255, 40, 40, 0.85) !important;
+}
+
+/* NORMAL / VERBOSE — BLUE */
+.wallet-controls-container .wallet-data-block .log-btn.normal.active,
+.wallet-controls-container .wallet-data-block .log-btn.verbose.active {
+  box-shadow:
+    0 0 16px rgba(0, 160, 255, 0.95),
+    0 0 30px rgba(0, 160, 255, 0.85),
+    0 0 48px rgba(0, 160, 255, 0.75) !important;
+  border-color: rgba(0, 160, 255, 0.85) !important;
+}

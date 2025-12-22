@@ -1,0 +1,20 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+
+/* WALLET SECURITY MUST MATCH TRADING CONTROLS CONTAINMENT */
+
+.wallet-security-root,
+.wallet-security-controls,
+.wallet-security-grid {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.wallet-security-grid {
+  display: grid;
+  grid-auto-rows: auto;
+  align-content: start;
+  row-gap: 16px;
+}

@@ -1,0 +1,1149 @@
+# 🚨 FINAL MASTER README — LIBERTY AI TRADE UPDATER SYSTEM
+
+### VERSION: LOCKED • ZERO-TOLERANCE • DO NOT MODIFY
+### DATE: 12-10-2025
+
+------------------------------------------------------------
+# ⚠️ SECTION 0 — ABSOLUTE GOVERNING LAW
+------------------------------------------------------------
+
+This README is the **master authority** over the Liberty AI Trade Updater System.
+
+Every updater module, helper script, bulk generator, developer action, and file operation **must obey every rule** defined here.
+
+## 🚨 ZERO INTERPRETATION ALLOWED
+
+Any updater behavior not explicitly permitted in this README is **strictly forbidden**.
+
+## 🚨 ZERO TOLERANCE
+
+Any violation immediately invalidates the update cycle and must be treated as a **system failure**.
+
+***NO PARTIAL FIXES OR SCRIPTS, NO INDIVIDUAL FILES ONLY BULK_UPDATE.PY***
+"BULK" = BULK_UPDATE.PY
+
+------------------------------------------------------------
+# ⚙️ RUNNING THE UPDATER
+------------------------------------------------------------
+
+You must run the updater **ONLY** from the root project folder:
+
+`Liberty AI Trade/`
+
+### Supported Commands:
+
+```bash
+python update_engine/updater_core/update_manager.py --force
+````
+
+```bash
+python -m update_engine.updater_core.update_manager --force
+```
+
+### Alternative Using Batch File:
+
+```bash
+run_updater.bat
+```
+
+## Prerequisites
+
+Both commands work **ONLY IF**:
+
+* `update_engine/__init__.py` exists
+* `update_engine/updater_core/__init__.py` exists
+
+If you see `ImportError` or `ModuleNotFoundError`, check:
+
+1. You are running from the **root folder** (not from inside `updater_core`)
+2. All `__init__.py` files are present
+3. On Windows, VSCode is run as **Administrator** if needed (for permissions)
+
+If you modify updater scripts directly or move folders, you **must** revalidate the structure against this README before running updates.
+
+---
+
+# ⚠️ SECTION 1 — LIVE FOLDER PROTECTION (UNBREAKABLE)
+
+---
+
+The following directories are **READ-ONLY** for all tools, scripts, and manual edits:
+
+```text
+Frontend/
+Backend/
+```
+
+The **ONLY EXCEPTIONS** (allowed updater write zones) are:
+
+```text
+Frontend/logs/      # Updater-created log files
+Backend/backups/    # Updater-created ZIP backups
+```
+
+No script or manual action may **EVER**:
+
+* Write new files
+* Modify existing files
+* Delete files
+* Rename files
+* Move files
+
+inside `Frontend/` or `Backend/` **outside** of these two write zones.
+
+The **only** component that may write to live code folders is `sync_logic.py`, and even then it must:
+
+* Copy files **FROM** `update_engine/updates/`
+* **Never** generate or edit new content directly in live folders.
+
+Any write to live folders outside `sync_logic.py` and its rules is a **system violation**.
+
+---
+
+# ⚠️ SECTION 2 — DROP-ZONE RULES (MANDATORY)
+
+---
+
+The **ONLY** location where updater scripts may create, modify, or delete files is:
+
+```text
+update_engine/updates/
+```
+
+This directory is the **DROP ZONE**.
+
+Any script that attempts file operations **outside** this directory is **immediately in violation**.
+
+## 2.1 — Mandatory Drop-Zone Initialization File
+
+This file is **required**:
+
+```text
+update_engine/updates/__init__.py
+```
+
+It **must contain ONLY**:
+
+```python
+import sys
+sys.dont_write_bytecode = True
+```
+
+If it is missing or modified incorrectly → **IMMEDIATE UPDATE FAILURE**.
+
+---
+
+# ⚠️ SECTION 3 — BULK_UPDATE.PY (PRIMARY DROP POINT)
+
+---
+
+`bulk_update.py` is the **ONLY** script allowed to generate or modify staged files for an update.
+
+Its location is:
+
+```text
+update_engine/updates/bulk_update.py
+```
+
+## 3.1 — Mandatory Header
+
+`bulk_update.py` **MUST** begin exactly as follows:
+
+```python
+#!/usr/bin/env python3
+import sys
+sys.dont_write_bytecode = True
+```
+
+If this header is missing or changed → **IMMEDIATE REJECTION**.
+
+## 3.2 — Forbidden Inside bulk_update.py
+
+`bulk_update.py` **MUST NOT**:
+
+* ❌ Import anything from `update_engine.updater_core` (no `update_core`, `sync_logic`, `utils`, etc.)
+* ❌ Generate or inject timestamps (these are handled by the core)
+* ❌ Add comments in `.json` files
+* ❌ Touch or reference live folders (`Frontend/`, `Backend/`)
+* ❌ Use absolute paths (must use paths relative to the drop zone)
+* ❌ Contain logic that depends on the current live project state
+
+All file output **must** target the `update_engine/updates/` subtree.
+
+## 3.3 — Mandatory Bulk Logging
+
+For every file generated or overwritten by `bulk_update.py`, there must be a matching console log line:
+
+```text
+[BULK]   relative/path/to/file
+```
+
+At the end of `bulk_update.py` execution, there **MUST** be:
+
+```text
+[BULK] Successfully processed <N> files
+```
+
+Where `<N>` is the exact count of files that were written or overwritten.
+
+If:
+
+* Any updated file is missing from `[BULK]` logs, or
+* The final `<N>` does not match the number of logged files,
+
+→ the update is considered a **FAILURE**.
+
+## 3.4 — Required Visual Lock Format (All Generated Files)
+
+All files generated by `bulk_update.py` **must** contain a top-of-file “visual lock” comment.
+
+### For Python (`.py`) files:
+
+```python
+# 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt
+# 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE
+```
+
+### For JavaScript (`.js`, `.jsx`, `.ts`, `.tsx`) files:
+
+```javascript
+// 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt
+// 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE
+```
+
+### For CSS (`.css`, `.scss`) files:
+
+```css
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+```
+
+Any missing or altered lock header is a violation.
+
+---
+
+# ⚠️ SECTION 4 — TIMESTAMP ENFORCEMENT RULES
+
+---
+
+The updater core is responsible for automated timestamp insertion.
+
+### 4.1 — File Types THAT MUST Receive Timestamps
+
+The following text-based file types **must** receive timestamps when updated:
+
+```text
+.py
+.js .jsx .ts .tsx
+.css .scss
+.html
+.md
+```
+
+### 4.2 — Absolute Skip List (NEVER Timestamp)
+
+Timestamps **MUST NEVER** be applied to:
+
+```text
+.png .jpg .jpeg .gif .ico .svg
+.json
+Binary files
+Any non-text assets
+```
+
+If the updater attempts to insert a timestamp into any of these → **IMMEDIATE FAILURE**.
+
+### 4.3 — Timestamp Format by File Type
+
+| Extension                    | Format                                    |
+| ---------------------------- | ----------------------------------------- |
+| `.py`                        | `# TIMESTAMP: YYYY-MM-DD_HH-MM-SS`        |
+| `.js`, `.jsx`, `.ts`, `.tsx` | `/* TIMESTAMP: YYYY-MM-DD_HH-MM-SS */`    |
+| `.css`, `.scss`              | `/* TIMESTAMP: YYYY-MM-DD_HH-MM-SS */`    |
+| `.html`                      | `<!-- TIMESTAMP: YYYY-MM-DD_HH-MM-SS -->` |
+| `.md`                        | `<!-- TIMESTAMP: YYYY-MM-DD_HH-MM-SS -->` |
+| `.json`                      | **NO COMMENTS ALLOWED** (no timestamps)   |
+
+All timestamps must be valid, properly closed comment blocks and **MUST NOT** be manually inserted in scripts. Timestamping is handled by the updater core only.
+
+---
+
+# ⚠️ SECTION 5 — MANDATORY TEST FILE ENFORCEMENT (CRITICAL)
+
+---
+
+There are **ONLY TWO** mandatory updater test files. Their purpose is to:
+
+* Validate update detection
+* Validate sync behavior
+* Validate timestamp injection
+* Validate log correctness
+
+## 5.1 — Official Mandatory Test File Locations
+
+### In the **updates** folder (drop zone):
+
+```text
+update_engine/updates/Frontend/src/components/tests/test_update.js
+update_engine/updates/Backend/tests/test_update.py
+```
+
+### In the **live** codebase (synced targets):
+
+```text
+Frontend/src/components/tests/test_update.js
+Backend/tests/test_update.py
+```
+
+These four files (two in updates, two in live) are **non-negotiable**.
+
+## 5.2 — RULE A — bulk_update.py MUST Overwrite Updates Test Files EVERY RUN
+
+On **every** updater run:
+
+* `bulk_update.py` **MUST** overwrite:
+
+  ```text
+  update_engine/updates/Frontend/src/components/tests/test_update.js
+  update_engine/updates/Backend/tests/test_update.py
+  ```
+
+These are the **canonical test files** for the updater.
+
+If **any** of the following happen:
+
+* The test files in the updates folder are not rewritten
+* They are missing timestamps
+* They do not appear in `[BULK]` logs
+* They are missing or malformed
+
+→ The update cycle is considered a **FAILURE**.
+
+## 5.3 — RULE B — bulk_update.py MUST NOT Touch Live Test Files
+
+`bulk_update.py` is **forbidden** from writing directly to:
+
+```text
+Frontend/src/components/tests/test_update.js
+Backend/tests/test_update.py
+```
+
+The live test files are updated **ONLY** via `sync_logic.py`, never by bulk generation.
+
+## 5.4 — RULE C — sync_logic MUST Overwrite the Live Test Files
+
+`sync_logic.py` must always:
+
+* Detect modified test files in `update_engine/updates/…`
+* Copy them into the corresponding live locations
+* Ensure timestamps are preserved
+
+If live test files do not change when updates are staged, sync behavior is considered a **failure**.
+
+---
+
+# ⚠️ SECTION 6 — DASHBOARD TEST FILES (STRICT IGNORE RULE)
+
+---
+
+All other test files (React, TradingView, UI snapshot, etc.) are **NOT** updater test files.
+
+Examples include (but are not limited to):
+
+```text
+Frontend/src/components/Controls/tests/Controls.test.js
+Frontend/src/components/Trading/tests/TradingPanel.spec.js
+Frontend/src/components/TradingView/tests/TradingView.test.js
+Frontend/src/components/TradingView/tests/TradingViewChart.spec.js
+Frontend/src/components/TradingView/tests/TradingViewDock.spec.js
+Frontend/src/tests/header_update_test.py
+Frontend/src/tests/frontend_test_update.txt
+... and any other *.test.js, *.spec.js, *.py, *.txt related to UI/dashboard
+```
+
+The updater must:
+
+* ❌ NEVER require these files
+* ❌ NEVER treat these as mandatory
+* ❌ NEVER timestamp them specifically
+* ❌ NEVER validate them as part of updater health
+* ❌ NEVER log them in updater-specific logs
+
+They are normal project files, and may be synced when changed, but:
+**they are not part of the updater’s critical validation.**
+
+If any updater component tries to enforce rules on these dashboard test files → **HARD SYSTEM VIOLATION**.
+
+---
+
+# ⚠️ SECTION 7 — ORGANIC SCANNING ONLY
+
+---
+
+All updater logic for file detection must use **organic recursive scanning**, not hardcoded file lists.
+
+## Strict Prohibitions:
+
+* ❌ No hardcoded filenames
+* ❌ No hardcoded “always include” lists (beyond the two mandatory test files described in Section 5)
+* ❌ No hardcoded skip logic except what is explicitly described in this README
+
+The updater must:
+
+* Detect new files
+* Detect modified files
+* Detect deleted files
+* Detect subdirectories
+* Detect timestamp placeholders
+
+…automatically, by walking:
+
+```text
+update_engine/updates/Frontend/
+update_engine/updates/Backend/
+```
+
+---
+
+# ⚠️ SECTION 8 — EXECUTION WORKFLOW (LOCKED ORDER)
+
+---
+
+The updater pipeline **MUST** run in this exact sequence:
+
+1. **Logger Initialization**
+2. **Backup Logic** (back up `update_engine/updates/` only)
+3. **Bulk Logic** (execute `bulk_update.py`)
+4. **update_core.py** (handle detection, timestamps, and core update logic)
+5. **sync_logic.py** (sync staged files from updates → live)
+6. **update_counter.py** (increment update cycle counter)
+7. **Logger Finalization** (write logs, print summary)
+
+If any step:
+
+* Runs out of order
+* Runs twice when it should not
+* Runs in parallel with another step
+
+→ the update is considered a **FAILURE**.
+
+No script is allowed to rearrange or bypass this order.
+
+---
+
+# ⚠️ SECTION 9 — BACKUP RULES (STRICT)
+
+---
+
+Backups exist to preserve the state of the **drop zone**.
+
+## 9.1 — Backups MUST Contain ONLY:
+
+```text
+update_engine/updates/**
+```
+
+## 9.2 — Backups MUST NOT Contain:
+
+```text
+Frontend/logs/
+Backend/backups/
+node_modules/
+__pycache__/
+*.pyc
+.git/
+```
+
+Backups are written to:
+
+```text
+Backend/backups/
+```
+
+This ensures:
+
+* Faster backup creation
+* Smaller backup archives
+* Clean restoration (no nested logs/backups)
+* No backup-of-backup recursion
+
+---
+
+# ⚠️ SECTION 10 — LOGGING RULES (MANDATORY)
+
+---
+
+Terminal output **MUST** include:
+
+* `[INFO]` line indicating forced update cycle and cycle number
+* `[BACKUP]` line indicating where the backup ZIP was created
+* Full `[BULK]` lines for each updated file from `bulk_update.py`
+* `[INFO]` line confirming how many files were updated by the core
+* `[SYNC]` line summarizing file sync counts
+* `[COUNTER]` line showing the new cycle number
+* `[LOG]` line showing the JSON log file path in `Frontend/logs/`
+* `[DONE]` line with total runtime
+
+Terminal output **MUST NOT** include:
+
+* Lists of every scanned file
+* Unchanged file logs
+* Dashboard test files
+* Noisy or redundant diagnostics
+
+Only files that are actually updated should be logged (plus summary lines).
+
+### Expected Terminal Output Pattern (Example):
+
+```text
+[INFO] Forcing update cycle #0263
+[BACKUP] Created: Backend/backups/updates_backup_2025-12-10_14-23-15.zip
+
+[BULK] Executing bulk_update.py ...
+[BULK]   Frontend/src/App.js
+[BULK]   Frontend/src/index.js
+[BULK]   Frontend/serve.json
+[BULK]   Frontend/src/components/tests/test_update.js
+[BULK]   Backend/main.py
+[BULK]   Backend/api/api_routes.py
+[BULK]   Backend/config/__init__.py
+[BULK]   Backend/tests/test_update.py
+[BULK] Successfully processed 8 files
+
+[INFO] Core update completed: 8 files updated
+[SYNC] File synchronization completed (8 file(s))
+[COUNTER] Cycle: #0263
+[LOG]  Frontend/logs/update_log_2025-12-10_14-23-15.json
+[DONE] Update completed in 2.1 s
+```
+
+Any major deviation from this pattern must be investigated.
+
+---
+
+# ⚠️ SECTION 11 — ENVIRONMENT ISOLATION (MANDATORY)
+
+---
+
+To prevent bytecode pollution and keep execution clean, the following are enforced:
+
+## 11.1 — `.pythonrc.py`
+
+Path:
+
+```text
+C:\Users\MMAPR\.pythonrc.py
+```
+
+Contents:
+
+```python
+import sys
+sys.dont_write_bytecode = True
+```
+
+## 11.2 — VSCode Terminal Settings
+
+Path:
+
+```text
+Liberty AI Trade/.vscode/settings.json
+```
+
+Contents:
+
+```json
+{
+  "terminal.integrated.env.windows": {
+    "PYTHONSTARTUP": "%USERPROFILE%\\.pythonrc.py"
+  }
+}
+```
+
+## 11.3 — `run_updater.bat`
+
+Path:
+
+```text
+Liberty AI Trade/run_updater.bat
+```
+
+Contents:
+
+```bat
+@echo off
+setlocal
+for /d /r %%d in (__pycache__) do if exist "%%d" rd /s /q "%%d"
+python -m update_engine.updater_core.update_manager --force %*
+endlocal
+```
+
+Any failure to enforce bytecode suppression in the drop zone requires:
+
+* Immediate cleanup of `__pycache__` folders
+* Re-running the updater from a clean state
+
+---
+
+# ⚠️ SECTION 12 — PROTECTED FILES
+
+---
+
+The following files are **protected** and MUST NEVER be moved, renamed, deleted, or manually modified outside updater rules:
+
+```text
+update_engine/Launch_Liberty_AI_Bot.bat
+update_engine/update_counter.dat
+update_engine/updates/__init__.py
+Frontend/src/components/tests/test_update.js
+Backend/tests/test_update.py
+README_UPDATER.txt
+```
+
+`Launch_Liberty_AI_Bot.bat`:
+
+* Lives under `update_engine/`
+* Starts both frontend and backend in correct order
+* Must always remain in this location
+
+---
+
+# ⚠️ SECTION 13 — PROJECT STRUCTURE (LOCKED)
+
+---
+
+**This structure is locked. Do NOT rename, relocate, or modify any paths listed here.**
+You have already validated this structure; it is now the reference.
+
+```text
+Liberty AI Trade/
+│
+├── Frontend/
+│   ├── logs/                           # ✅ Updater write zone
+│   │   └── update_log_YYYY-MM-DD_HH-MM-SS.json
+│   │
+│   ├── public/
+│   │   └── index.html
+│   │
+│   └── src/
+│       ├── assets/
+│       │   └── (images, backgrounds, logos, etc.)
+│       │
+│       ├── components/
+│       │   ├── Common/
+│       │   │   └── SharedAITradingToggle.js
+│       │   │
+│       │   ├── Controls/
+│       │   │   ├── Actions/
+│       │   │   │   ├── BotActions.css
+│       │   │   │   └── BotActions.js
+│       │   │   │
+│       │   │   ├── AI/
+│       │   │   │   ├── AIControls.css
+│       │   │   │   └── AIControls.js
+│       │   │   │
+│       │   │   ├── System/
+│       │   │   │   ├── HistoryPanel.css
+│       │   │   │   ├── HistoryPanel.js
+│       │   │   │   ├── HoldingsPanel.css
+│       │   │   │   ├── HoldingsPanel.js
+│       │   │   │   ├── SystemControls.css
+│       │   │   │   ├── SystemControls.js
+│       │   │   │   ├── TelegramControls.css
+│       │   │   │   └── TelegramControls.js
+│       │   │   │
+│       │   │   ├── tests/              # Dashboard tests (IGNORE for updater)
+│       │   │   │   └── Controls.test.js
+│       │   │   │
+│       │   │   └── Trading/
+│       │   │       ├── TradingControls.js
+│       │   │       ├── Controls.css
+│       │   │       ├── Controls.js
+│       │   │       ├── ControlsPanel.css
+│       │   │       ├── ControlsPanel.js
+│       │   │       ├── ControlsSection.css
+│       │   │       └── ControlsSection.js
+│       │   │
+│       │   ├── Header/
+│       │   │   ├── Header.css
+│       │   │   ├── Header.js
+│       │   │   └── index.js
+│       │   │
+│       │   ├── Performance/
+│       │   │   ├── PerformancePanel.css
+│       │   │   └── PerformancePanel.js
+│       │   │
+│       │   ├── tests/                  # Includes mandatory updater test
+│       │   │   ├── test_update.js      # ✅ MANDATORY FRONTEND TEST FILE (live)
+│       │   │   ├── header_update_test.py
+│       │   │   ├── TradingControls.test.js
+│       │   │   ├── TradingViewControlsSnapshot.test.js
+│       │   │   ├── ChartSection.test.js
+│       │   │   ├── frontend_test_update.txt
+│       │   │   └── __init__.py
+│       │   │
+│       │   ├── Trading/
+│       │   │   ├── shared/
+│       │   │   │   └── SharedAITradingMapper.js
+│       │   │   │
+│       │   │   ├── Sidebar/
+│       │   │   │   ├── TradingSidebar.css
+│       │   │   │   ├── TradingSidebar.js
+│       │   │   │   └── TradingSidebar.spec.js
+│       │   │   │
+│       │   │   ├── tests/              # Dashboard tests (IGNORE)
+│       │   │   │   └── TradingPanel.spec.js
+│       │   │   │
+│       │   │   ├── TradingControls.css
+│       │   │   ├── TradingControls.js
+│       │   │   ├── TradingPanel.css
+│       │   │   └── TradingPanel.js
+│       │   │
+│       │   └── TradingView/
+│       │       ├── shared/
+│       │       │   └── SharedAITradingMapper.js
+│       │       │
+│       │       ├── tests/              # Dashboard tests (IGNORE)
+│       │       │   ├── TradingView.test.js
+│       │       │   ├── TradingViewChart.spec.js
+│       │       │   └── TradingViewDock.spec.js
+│       │       │
+│       │       ├── AIExplanationEngine.js
+│       │       ├── AIExplanationPanel.css
+│       │       ├── AIExplanationPanel.js
+│       │       ├── AIHeatmapOverlay.css
+│       │       ├── AIHeatmapOverlay.js
+│       │       ├── AIIndicatorLayer.css
+│       │       ├── AIIndicatorLayer.js
+│       │       ├── AIOverlayEngine.js
+│       │       ├── AIPredictionEngine.js
+│       │       ├── AISignalOverlay.js
+│       │       ├── AISupportResistance.css
+│       │       ├── AISupportResistance.js
+│       │       ├── AITendencyCloud.css
+│       │       ├── AITendencyCloud.js
+│       │       ├── AITradeRouter.js
+│       │       ├── ChartContainer.css
+│       │       ├── ChartContainer.js
+│       │       ├── DockManager.css
+│       │       ├── DockManager.js
+│       │       ├── OverlayManager.css
+│       │       ├── OverlayManager.js
+│       │       ├── PredictionFeed.js
+│       │       ├── SentimentMeter.css
+│       │       ├── SentimentMeter.js
+│       │       ├── SentimentSourceSelector.css
+│       │       ├── SentimentSourceSelector.js
+│       │       ├── StrategyIndicator.css
+│       │       ├── StrategyIndicator.js
+│       │       ├── StrategyRouter.js
+│       │       ├── SymbolDetector.css
+│       │       ├── SymbolDetector.js
+│       │       ├── SymbolParser.js
+│       │       ├── TokenConfidence.css
+│       │       ├── TokenConfidence.js
+│       │       ├── TokenRouter.js
+│       │       ├── TokenWatcher.css
+│       │       ├── TokenWatcher.js
+│       │       ├── TradingViewChartSection.css
+│       │       ├── TradingViewChartSection.js
+│       │       ├── TradingViewController.css
+│       │       ├── TradingViewController.js
+│       │       ├── TradingViewDock.css
+│       │       ├── TradingViewDock.js
+│       │       ├── TradingViewFloating.css
+│       │       ├── TradingViewFloating.js
+│       │       ├── TradingViewMarkers.css
+│       │       ├── TradingViewMarkers.js
+│       │       ├── TradingViewPanel.css
+│       │       ├── TradingViewPanel.js
+│       │       ├── TradingViewSection.css
+│       │       └── TradingViewWidget.js
+│       │
+│       ├── tests/
+│       │   ├── __init__.py
+│       │   ├── ChartSection.test.js
+│       │   ├── frontend_test_update.txt
+│       │   ├── header_update_test.py
+│       │   ├── test_update.js          # (duplicate location, but updater cares about components/tests)
+│       │   ├── test_update.py
+│       │   ├── TradingControls.test.js
+│       │   └── TradingViewControlsSnapshot.test.js
+│       │
+│       ├── App.css
+│       ├── App.js
+│       ├── index.css
+│       ├── index.js
+│       └── styles.css
+│
+│   └── serve.json
+│
+├── Backend/
+│   ├── backups/                        # ✅ Updater write zone
+│   │   └── updates_backup_YYYY-MM-DD_HH-MM-SS.zip
+│   │
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── api_routes.py
+│   │
+│   ├── config/
+│   │   ├── __init__.py                 # May be auto-managed by updater
+│   │   └── config.py
+│   │
+│   ├── models/
+│   ├── routes/
+│   │
+│   ├── tests/
+│   │   └── test_update.py              # ✅ MANDATORY BACKEND TEST FILE (live)
+│   │
+│   └── main.py
+│
+├── update_engine/
+│   ├── __init__.py
+│   ├── Launch_Liberty_AI_Bot.bat       # ⚠️ Protected launcher
+│   ├── update_counter.dat              # ⚠️ Protected counter
+│   │
+│   ├── updater_core/
+│   │   ├── __init__.py
+│   │   ├── backup_logic.py
+│   │   ├── bulk_logic.py
+│   │   ├── log_logic.py
+│   │   ├── scan_logic.py
+│   │   ├── sync_logic.py
+│   │   ├── update_core.py
+│   │   ├── update_counter.py
+│   │   ├── update_manager.py
+│   │   └── utils.py
+│   │
+│   └── updates/                        # 🎯 DROP ZONE
+│       ├── __init__.py                 # ⚠️ MANDATORY
+│       ├── bulk_update.py              # 🎯 PRIMARY DROP POINT
+│       │
+│       ├── Frontend/
+│       │   ├── package.json
+│       │   ├── package-lock.json
+│       │   ├── public/
+│       │   │   └── index.html
+│       │   │
+│       │   └── src/
+│       │       ├── assets/
+│       │       ├── components/
+│       │       │   └── tests/
+│       │       │       └── test_update.js  # ✅ MANDATORY FRONTEND TEST FILE (updates)
+│       │       ├── styles/
+│       │       ├── tests/
+│       │       ├── App.css
+│       │       ├── App.js
+│       │       ├── index.css
+│       │       ├── index.js
+│       │       └── styles.css
+│       │
+│       └── Backend/
+│           ├── api/
+│           │   ├── __init__.py
+│           │   └── api_routes.py
+│           │
+│           ├── config/
+│           │   └── __init__.py         # Temporary sync file if needed
+│           │
+│           ├── models/
+│           ├── routes/
+│           │
+│           ├── tests/
+│           │   └── test_update.py      # ✅ MANDATORY BACKEND TEST FILE (updates)
+│           │
+│           └── main.py
+│
+├── .vscode/
+│   └── settings.json                   # Terminal isolation
+│
+├── run_updater.bat
+├── README_UPDATER.txt                  # ⚠️ THIS FILE (MASTER RULESET)
+└── README_Assistant_Export.txt
+```
+
+---
+
+# ⚠️ SECTION 14 — IMMEDIATE REJECTION TRIGGERS
+
+---
+
+Any of the following conditions **REQUIRES** the update to stop immediately:
+
+### File Structure Violations
+
+* Any write to live folders (except:
+
+  * `Backend/backups/`
+  * `Frontend/logs/`
+* Missing mandatory test files (Section 5)
+* `__pycache__` or `.pyc` present in `update_engine/updates/`
+* Missing `update_engine/updates/__init__.py`
+
+### bulk_update.py Violations
+
+* Missing required header (`sys.dont_write_bytecode = True`)
+* Importing updater internals
+* Manually adding timestamps
+* Missing `[BULK]` print statements
+* Missing final `[BULK] Successfully processed <N> files` line
+
+### Drop-Zone Script Violations
+
+* Any script in `update_engine/updates/` missing `sys.dont_write_bytecode = True`
+* Helper modules executing logic at import time
+* Helper modules missing `if __name__ == "__main__"` guards when appropriate
+
+### Dashboard Test File Processing
+
+* Any attempt to:
+
+  * Enforce
+  * Validate
+  * Timestamp
+  * Require
+  * Log as mandatory
+
+…for dashboard test files (Section 6) is a **hard violation**.
+
+### Timestamp Violations
+
+* Timestamp attempted on image/binary/JSON files
+* Unclosed timestamp comment blocks
+* Manual timestamp creation
+
+### JSON Violations
+
+* Any comments in `.json` files (`//` or `/* */`)
+* Invalid JSON syntax
+
+### Console Output Violations
+
+* `"0 file(s) updated"` when files were staged
+* File count mismatch between `[BULK]` and `[SYNC]`
+* Missing cycle counter increment
+* Missing backup creation log
+* Missing log file creation
+* Completely silent updates
+
+### Workflow Violations
+
+* Steps running out of order (Section 8)
+* Missing update counter increment
+* Hardcoded filenames beyond the mandatory test files
+* Hardcoded skip logic not defined in this README
+* Manual “fixes” applied directly to live folders
+
+**Any of these → UPDATE FAILURE.**
+
+---
+
+# ⚠️ SECTION 15 — FINAL EXECUTION COMMANDS (MANDATORY)
+
+---
+
+Updates MUST be run from the **project root**:
+
+```bash
+python -m update_engine.updater_core.update_manager --force
+```
+
+or:
+
+```bash
+run_updater.bat
+```
+
+Running from any other directory or context is considered a misconfiguration and may result in a failed or partial update.
+
+---
+
+# ⚠️ SECTION 16 — EMERGENCY RECOVERY PROCEDURE
+
+---
+
+If an update fails or corrupts the system, use this recovery procedure.
+
+## Step 1: Immediate Restoration
+
+```bash
+cd "Liberty AI Trade/Backend/backups"
+# List backups
+dir
+# Extract latest backup
+# (replace with actual timestamp)
+tar -xf updates_backup_YYYY-MM-DD_HH-MM-SS.zip -C ../../update_engine/
+```
+
+(Use `tar -xf` or `unzip` depending on archive format.)
+
+## Step 2: Fix Common Issues
+
+1. **Remove JSON comments**
+   Search all `.json` in `update_engine/updates/` for `//` or `/* */` and remove comments.
+
+2. **Fix file paths**
+   Ensure all paths are forward-slash-based and match the structure in Section 13.
+
+3. **Verify test files**
+   Confirm these files exist and are correctly formatted:
+
+   ```text
+   update_engine/updates/Frontend/src/components/tests/test_update.js
+   update_engine/updates/Backend/tests/test_update.py
+   Frontend/src/components/tests/test_update.js
+   Backend/tests/test_update.py
+   ```
+
+4. **Check bulk_update.py**
+   Ensure:
+
+   * It has the required header
+   * It logs `[BULK]   <path>` for each generated file
+   * It ends with `[BULK] Successfully processed <N> files`
+
+5. **Remove bytecode**
+   Delete all `__pycache__` folders and `.pyc` files from `update_engine/updates/`.
+
+## Step 3: Re-execute Update
+
+```bash
+cd "Liberty AI Trade"
+python -m update_engine.updater_core.update_manager --force
+```
+
+## Step 4: Verify Success
+
+Ensure the terminal output pattern matches Section 10 (logging rules) and that backup/log paths are correct.
+
+---
+
+# ⚠️ SECTION 17 — TROUBLESHOOTING CHECKLIST
+
+---
+
+Before reporting any issue, verify:
+
+* [ ] `update_engine/updates/__init__.py` exists and contains bytecode suppression
+* [ ] ALL drop-zone scripts start with `sys.dont_write_bytecode = True`
+* [ ] No `__pycache__` folders or `.pyc` files exist under `update_engine/updates/`
+* [ ] All staged files are under `update_engine/updates/Frontend/` or `update_engine/updates/Backend/`
+* [ ] `bulk_update.py` contains **only** file generation logic (no updater imports)
+* [ ] Every file written by `bulk_update.py` has a corresponding `[BULK]   <path>` line
+* [ ] JSON files contain **zero comments**
+* [ ] Mandatory test files (Section 5) are present and updated
+* [ ] You are running from project root with correct command
+* [ ] No manual timestamps exist in any file
+* [ ] All required directories are created with `os.makedirs(..., exist_ok=True)`
+* [ ] Helper modules use `if __name__ == "__main__":` guards as needed
+* [ ] Visual lock headers are present on generated files
+
+---
+
+# ⚠️ SECTION 18 — DROP-ZONE SANITY CHECK
+
+---
+
+The updater performs pre-flight checks before executing.
+
+## Automatic Verification
+
+The updater must:
+
+* ✅ Confirm `update_engine/updates/__init__.py` exists
+* ✅ Scan for any `__pycache__` or `.pyc` under `update_engine/updates/`
+* ✅ Validate that **all** Python scripts in drop zone start with `sys.dont_write_bytecode = True`
+* ✅ Abort with a clear error if any of the above checks fail
+
+## Manual Verification Commands (For Windows / WSL / Git Bash):
+
+```bash
+# Check for bytecode contamination
+find update_engine/updates -name "*.pyc" -o -name "__pycache__"
+
+# Verify __init__.py exists
+ls -la update_engine/updates/__init__.py
+
+# Check script headers in drop-zone
+head -3 update_engine/updates/*.py
+```
+
+---
+
+# ⚠️ SECTION 19 — SUCCESS INDICATORS
+
+---
+
+A successful update will show:
+
+* ✅ Backup ZIP created under `Backend/backups/`
+* ✅ `[BULK]` lines for each updated file from `bulk_update.py`
+* ✅ Timestamp injection performed only where allowed
+* ✅ `[SYNC]` confirms correct file count copied
+* ✅ `[COUNTER]` prints an incremented cycle number
+* ✅ `[LOG]` shows a valid JSON log file path in `Frontend/logs/`
+* ✅ `[DONE]` shows a reasonable completion time
+* ✅ No dashboard test files appear in updater logs
+* ✅ Mandatory test files (Section 5) are updated on each run
+
+If any of these are not true, the update cycle must be inspected.
+
+---
+
+# ⚠️ SECTION 20 — CRITICAL PATH REFERENCE SUMMARY
+
+---
+
+## Key Directories:
+
+* **Drop Zone**: `update_engine/updates/`
+* **Live Frontend**: `Frontend/`
+* **Live Backend**: `Backend/`
+* **Backup Location**: `Backend/backups/`
+* **Log Location**: `Frontend/logs/`
+
+## Key Files:
+
+* **Primary Drop Point**: `update_engine/updates/bulk_update.py`
+* **Drop-Zone Init**: `update_engine/updates/__init__.py`
+* **Updater Manager**: `update_engine/updater_core/update_manager.py`
+* **Root Launcher**: `run_updater.bat`
+* **Bot Launcher**: `update_engine/Launch_Liberty_AI_Bot.bat`
+* **Mandatory Test Files**:
+
+  * `update_engine/updates/Frontend/src/components/tests/test_update.js`
+  * `update_engine/updates/Backend/tests/test_update.py`
+  * `Frontend/src/components/tests/test_update.js`
+  * `Backend/tests/test_update.py`
+
+## Execution Commands (Final Reminder):
+
+```bash
+# From project root (Liberty AI Trade/)
+python -m update_engine.updater_core.update_manager --force
+
+# OR using batch file
+run_updater.bat
+```
+
+---
+
+# ✔️ README COMPLETED — ZERO-TOLERANCE MODE ACTIVE
+
+---
+
+This README represents the **final, locked, and enforceable** ruleset for the Liberty AI Trade Updater System.
+
+No deviations, exceptions, or “interpretations” are permitted.
+
+* All file generation logic **must** be placed in `update_engine/updates/bulk_update.py`.
+* The updater has **selective write permissions** only to:
+
+  * `Backend/backups/`
+  * `Frontend/logs/`
+* Dashboard test files (`*.test.js`, `*.spec.js`, etc.) **MUST BE IGNORED** by the updater and never treated as mandatory.
+
+Any violation of these rules is treated as a **failed update cycle** and must be corrected immediately.
+
+```
+```

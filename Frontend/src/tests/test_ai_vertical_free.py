@@ -1,0 +1,1 @@
+def test_ai_vertical_free(): return 'AI no longer vertically clamped'

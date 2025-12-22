@@ -1,0 +1,84 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* ✅ SYSTEM CONTROLS — GOLD SUBTITLE PASS */
+
+.system-controls-root {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.system-block {
+  padding: 16px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+}
+
+/* SUBTITLES (MATCH WALLET GOLD) */
+.system-block h4 {
+  margin: 0 0 12px;
+  font-size: 15.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #d4af37; /* WALLET GOLD */
+  opacity: 0.95;
+}
+
+/* STATUS ROWS */
+.status-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin: 7px 0;
+}
+
+/* LED BADGES */
+.led {
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.green {
+  background: rgba(0,255,120,0.18);
+  color: #4cff9b;
+  box-shadow: 0 0 18px rgba(0,255,120,0.95);
+}
+
+.red {
+  background: rgba(255,80,80,0.18);
+  color: #ff6b6b;
+  box-shadow: 0 0 18px rgba(255,80,80,0.95);
+}
+
+/* ACTION BUTTONS */
+.actions .action-row {
+  display: flex;
+  gap: 12px;
+}
+
+.actions button {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 16px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #ffffff;
+  transition: all 0.15s ease-in-out;
+}
+
+/* EMERGENCY BUTTON */
+.emergency-btn {
+  width: 100%;
+  padding: 14px 0;
+  font-size: 17px;
+  background: #ff3b3b;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  transition: all 0.15s ease-in-out;
+}

@@ -1,0 +1,64 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt
+   ✅ WALLET STATUS — ISOLATED STYLES ONLY (NO GLOBALS)
+   ✅ RESTORES 2x2 GRID + REMOVES GREEN HIGHLIGHT BARS (TEXT ONLY)
+*/
+
+/* Root container must grow organically */
+.wallet-status-root{
+  width:100%;
+  height:auto;
+  min-height:unset;
+  overflow:visible;
+  position:relative;
+}
+
+/* Section title must be GOLD */
+.wallet-status-root .wallet-section-title{
+  color:#f5c26b;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+
+/* 2x2 grid (LOCKED) */
+.wallet-status-root .wallet-status-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 48px;
+  width:100%;
+  align-items:start;
+}
+
+/* Labels/subtitles must be WHITE */
+.wallet-status-root .wallet-label{
+  color:#ffffff;
+  font-size:.92rem;
+  letter-spacing:.06em;
+  margin: 8px 0 6px 0;
+  opacity: .95;
+}
+
+/* Values (entries) — +30% total (20% + 10%) */
+.wallet-status-root .wallet-value{
+  color:#ffffff;
+  font-size:1.30rem;
+  font-weight:700;
+  line-height:1.25;
+
+  /* critical: prevent any bar/highlight look */
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Green entries must be TEXT ONLY (no bars) */
+.wallet-status-root .wallet-value.green{
+  color:#2bff9a !important;
+
+  /* hard kill any previous "highlight bar" rules */
+  background: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}

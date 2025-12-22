@@ -1,0 +1,133 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* ============================================================
+   CONTROLS SECTION — STYLED TO MATCH PERFORMANCE + WALLET
+   ============================================================ */
+
+/* ============================================================
+   CONTROLS SECTION CONTAINER — UNIFIED BACKGROUND
+   ✅ ORGANIC GROWTH: NO VERTICAL LIMITS (MAX-HEIGHT/OVERFLOW) ALLOWED
+   ============================================================ */
+
+.controls-section-container {
+  position: relative;
+  width: 100%;
+
+  /* Continuous Liberty background for entire section */
+  background-image: url('../../assets/Main_Liberty_background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  padding-bottom: 60px;
+}
+
+/* TOP GLOWING NEON DIVIDER */
+.controls-section-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right,
+      transparent,
+      rgba(0, 150, 255, 0.95),
+      transparent);
+  box-shadow:
+    0 0 8px rgba(0, 150, 255, 0.9),
+    0 0 16px rgba(0, 150, 255, 0.8);
+  pointer-events: none;
+}
+
+/* BOTTOM GLOWING NEON DIVIDER */
+.controls-section-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right,
+      transparent,
+      rgba(0, 150, 255, 0.95),
+      transparent);
+  box-shadow:
+    0 0 8px rgba(0, 150, 255, 0.9),
+    0 0 16px rgba(0, 150, 255, 0.8);
+  pointer-events: none;
+}
+
+/* ============================================================
+   CONTROLS SECTION HEADER — TRANSPARENT, NO BACKGROUND
+   ============================================================ */
+
+.controls-header-wrapper {
+  width: 100%;
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+/* CONTROLS TITLE — MATCHES PERFORMANCE .perf-title */
+.controls-title {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #d9b26d;
+  -webkit-text-stroke: 1px #000;
+  margin: 0 0 8px 0;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+/* CONTROLS SUBTITLE — MATCHES PERFORMANCE .perf-subtitle */
+.controls-subtitle {
+  font-size: 17px;
+  opacity: 0.88;
+  letter-spacing: 0.16em;
+  margin: 0 0 26px 0;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: inherit;
+  font-weight: normal;
+  /* Restore to normal if subtitle should be lighter than title */
+}
+
+/* ============================================================
+   CONTROLS SECTION — (Now just a wrapper for content, background moved to container)
+   ============================================================ */
+
+.controls-section {
+  width: 100%;
+  /* padding-top: 40px; -- Moved to .controls-content-wrapper */
+  /* padding-bottom: 60px; -- Moved to .controls-section-container */
+  position: relative;
+  /* Background and dividers moved to .controls-section-container */
+}
+
+/* ============================================================
+   CONTROLS CONTENT WRAPPER — LAYOUT CONTROL ONLY
+   ============================================================ */
+
+.controls-content-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  padding: 24px;
+
+  /* Layout responsibility — not visual */
+  background: transparent;
+
+  /* Use flex/grid gaps for spacing, not margins */
+  display: flex;
+  flex-direction: column;
+  /* Space handled by child margins (matching AI authority) */
+  gap: 0;
+}

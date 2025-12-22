@@ -1,0 +1,9 @@
+# Backend/requirements.txt
+# Core backend dependencies for Liberty AI Trade.
+# Restored to match the immutable structure in README_UPDATER.txt.
+
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+aiohttp

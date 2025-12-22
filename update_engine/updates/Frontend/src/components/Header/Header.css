@@ -1,0 +1,134 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+
+.header-container {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 35px;
+  margin-top: 0;
+  text-align: center;
+  color: white;
+  background-image: url('../../assets/Main_Liberty_background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header-logo {
+  width: 290px;
+  height: auto;
+  margin-top: 0;
+  position: relative;
+  top: 24px;
+}
+
+.header-top img:first-child { margin-left: 48px; }
+.header-top img:last-child  { margin-right: 48px; }
+
+.header-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: -10px;
+}
+
+/* === TITLE GROUP === */
+.header-title {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: 10px;
+  margin: 0;
+  color: #d2b36a;
+  text-transform: uppercase;
+
+  padding-left: 72px;
+  padding-right: 72px;
+}
+
+/* === AI — OPTICALLY CENTERED, +15% === */
+.header-title .ai-glow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 120px;
+  height: 120px;
+
+  /* +15% from 125px */
+  font-size: 144px;
+  line-height: 1;
+  font-weight: 800;
+
+  /* CONFIRMED BUTTON BLUE */
+  color: rgb(10,174,255);
+
+  margin-left: 64px;
+  margin-right: 64px;
+
+  /* 🔑 OPTICAL BASELINE CORRECTION */
+  transform: translateY(-4px);
+
+  text-shadow:
+    0 0 10px rgba(10,174,255,0.7),
+    0 0 24px rgba(10,174,255,0.55);
+
+  animation: aiHeartbeat 2.4s ease-in-out infinite;
+}
+
+.header-sub {
+  display: inline-block;
+  line-height: 1.2;
+  margin: 0 auto;
+  position: relative;
+  top: -50px;
+  text-shadow: 0 0 6px rgba(255,255,255,0.25);
+}
+
+.header-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  background: none;
+  filter: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes aiHeartbeat {
+  0% {
+    opacity: 0.8;
+    text-shadow:
+      0 0 10px rgba(10,174,255,0.7),
+      0 0 24px rgba(10,174,255,0.55);
+  }
+  50% {
+    opacity: 1;
+    text-shadow:
+      0 0 16px rgba(10,174,255,1),
+      0 0 38px rgba(10,174,255,0.95);
+  }
+  100% {
+    opacity: 0.8;
+    text-shadow:
+      0 0 10px rgba(10,174,255,0.7),
+      0 0 24px rgba(10,174,255,0.55);
+  }
+}

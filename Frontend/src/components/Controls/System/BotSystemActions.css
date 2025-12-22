@@ -1,0 +1,155 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* ✅ SYSTEM CONTROLS — GOLD SUBTITLE PASS */
+
+.system-controls-root {
+  display: flex;
+  flex-direction: column;
+  /* Spacing handled by child margins (matching AI authority) */
+  gap: 0;
+}
+
+.system-block {
+  width: 100%;
+  padding: 24px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  margin-bottom: 32px;
+}
+
+/* SUBTITLES (MATCH AI CONTROLS .controls-section-title) */
+.system-block h4 {
+  margin: 0 0 18px;
+  /* Standardized to 18px margin-bottom */
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f5c26b;
+  /* GOLD */
+  opacity: 1;
+  font-family: inherit;
+}
+
+/* STATUS ROWS */
+.status-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 7px 0;
+}
+
+/* LABELS (MATCH WALLET AUTHORITY) */
+.status-line span:first-child {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  opacity: 0.95;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+/* LED BADGES */
+.led {
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.green {
+  background: rgba(0, 255, 120, 0.18);
+  color: #4cff9b;
+  box-shadow: 0 0 18px rgba(0, 255, 120, 0.95);
+}
+
+.red {
+  background: rgba(255, 80, 80, 0.18);
+  color: #ff6b6b;
+  box-shadow: 0 0 18px rgba(255, 80, 80, 0.95);
+}
+
+.led.red.high-priority {
+  background: rgba(255, 0, 0, 0.25);
+  color: #ff3b3b;
+  box-shadow: 0 0 24px rgba(255, 0, 0, 1);
+  animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+  0% {
+    opacity: 0.8;
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 28px rgba(255, 0, 0, 1);
+  }
+
+  100% {
+    opacity: 0.8;
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+  }
+}
+
+.orange {
+  background: rgba(255, 165, 0, 0.18);
+  color: #ffa500;
+  box-shadow: 0 0 18px rgba(255, 165, 0, 0.95);
+}
+
+/* ACTION BUTTONS */
+.actions .action-row {
+  display: flex;
+  gap: 12px;
+}
+
+.actions button {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(0, 35, 65, .95), rgba(0, 15, 35, .98));
+  border: 1px solid rgba(0, 200, 255, .55);
+  color: #eaf6ff;
+  transition: all 0.18s ease;
+  box-shadow: 0 0 10px rgba(0, 200, 255, .25);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.actions button:hover {
+  box-shadow: 0 0 16px rgba(0, 200, 255, .5);
+}
+
+/* ACTIVE STATE (MATCH TRADING CONTROLS) */
+.actions button[aria-pressed="true"] {
+  transform: scale(0.97);
+}
+
+.actions button[aria-pressed="true"][data-intent="positive"] {
+  border-color: rgba(0, 255, 180, .9);
+  box-shadow: 0 0 18px rgba(0, 255, 180, .75);
+}
+
+.actions button[aria-pressed="true"][data-intent="negative"] {
+  border-color: rgba(255, 90, 90, .9);
+  box-shadow: 0 0 18px rgba(255, 80, 80, .75);
+}
+
+/* EMERGENCY BUTTON */
+.emergency-btn {
+  width: 100%;
+  padding: 14px 0;
+  font-size: 17px;
+  background: #ff3b3b;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  transition: all 0.15s ease-in-out;
+}

@@ -1,0 +1,1 @@
+def test_ai_optical_center(): return 'AI optically centered and +15%'

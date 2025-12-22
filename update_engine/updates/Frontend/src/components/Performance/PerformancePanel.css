@@ -1,0 +1,134 @@
+/* 🚨 DO NOT MODIFY OUTSIDE README_UPDATER RULES */
+/* TIMESTAMP: */
+
+/* MAIN PERFORMANCE BACKGROUND CONTAINER */
+.performance-container {
+  width: 100%;
+  padding-top: 40px;
+  padding-bottom: 60px;
+
+  text-align: center;
+  color: white;
+
+  background-image: url('../../assets/Main_Liberty_background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative; /* required for the dividers */
+}
+
+/* TOP GLOWING NEON DIVIDER — MATCHES HEADER EXACTLY */
+.performance-container::before {
+  content: '';
+  position: absolute;
+  top: 0;       /* TOP EDGE OF BACKGROUND */
+  left: 0;
+  width: 100%;
+  height: 1px;
+
+  background: rgba(0, 150, 255, 0.95);
+  box-shadow:
+    0 0 8px rgba(0,150,255,0.9),
+    0 0 16px rgba(0,150,255,0.8);
+}
+
+/* BOTTOM GLOWING NEON DIVIDER — MATCHES HEADER EXACTLY */
+.performance-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;    /* BOTTOM EDGE OF BACKGROUND */
+  left: 0;
+  width: 100%;
+  height: 1px;
+
+  background: rgba(0, 150, 255, 0.95);
+  box-shadow:
+    0 0 8px rgba(0,150,255,0.9),
+    0 0 16px rgba(0,150,255,0.8);
+}
+
+/* REMOVE ANY OLD KPI BOTTOM DIVIDER */
+.bottom-kpi-divider {
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* PERFORMANCE TITLE */
+.perf-title {
+  font-size: 38px;
+  font-weight: 720;
+  letter-spacing: 0.18em;
+  margin-bottom: 8px;
+  color: #d9b26d;
+  -webkit-text-stroke: 1px #000;
+}
+
+/* SUBTITLE */
+.perf-subtitle {
+  font-size: 17px;
+  opacity: 0.88;
+  margin-bottom: 26px;
+  letter-spacing: 0.16em;
+}
+
+/* KPI GRID */
+.kpi-grid {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(350px, 1fr));
+  column-gap: 20px;
+  row-gap: 32px;
+}
+
+/* MOBILE */
+@media (max-width: 780px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+    row-gap: 22px;
+  }
+}
+
+/* ============================================================
+   PERFORMANCE DIVIDER GLOW OVERRIDE (SAFE)
+   ------------------------------------------------------------
+   Removes glow ONLY from the top divider.
+   Divider line remains intact.
+   ============================================================ */
+
+.performance-container::before {
+    box-shadow: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+/* ============================================================
+   PERFORMANCE BACKGROUND GLOW DAMPENER (SAFE)
+   ------------------------------------------------------------
+   Soft-masks residual luminance from background image.
+   Does NOT affect layout, dividers, or content.
+   ============================================================ */
+
+.performance-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.25),
+        rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0.25)
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.performance-container > * {
+    position: relative;
+    z-index: 2;
+}

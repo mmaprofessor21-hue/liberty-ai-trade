@@ -1,0 +1,15 @@
+/* WALLET LOGGING - BUTTON ARCHETYPE (MATCH SYSTEM CONTROLS)
+   Scoped to .wallet-logging only. No global selectors.
+*/
+
+.wallet-logging .wallet-label {
+  margin-bottom: 10px;
+}
+
+/* Ensure Wallet logging uses the same group layout as other controls */
+.wallet-logging .wallet-logging-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}

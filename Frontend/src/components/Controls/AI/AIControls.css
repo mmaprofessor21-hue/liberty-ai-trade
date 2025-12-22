@@ -1,0 +1,102 @@
+/* 🚨 DO NOT MODIFY OUTSIDE README_UPDATER.txt */
+
+/* ============================================================
+   AI CONTROLS — MATCH TRADING CONTROLS VISUAL SYSTEM
+   ============================================================ */
+
+.controls-section-block {
+  width: 100%;
+  margin-bottom: 32px;
+
+  /* Container Authority Source of Truth */
+  padding: 24px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+/* SUB-SECTION TITLE — GOLD (MATCH TRADING CONTROLS) */
+.controls-section-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #f5c26b;
+  margin-bottom: 18px;
+  text-align: left;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.ai-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* LABELS (MATCH WALLET AUTHORITY) */
+.ai-controls .tc-label {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  opacity: 0.95;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.ai-controls .tc-button-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* AI CONTROLS BUTTONS — BASE STYLING (MATCH WALLET-BTN) */
+.ai-controls button {
+  min-width: 120px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(0, 35, 65, .95), rgba(0, 15, 35, .98));
+  color: #eaf6ff;
+  border: 1px solid rgba(0, 200, 255, .55);
+  transition: all 0.18s ease, transform 0.1s ease;
+  box-shadow: 0 0 10px rgba(0, 200, 255, .25);
+  outline: none;
+}
+
+/* HOVER — (MATCH WALLET-BTN) */
+.ai-controls button:hover {
+  box-shadow: 0 0 16px rgba(0, 200, 255, .5);
+}
+
+/* ACTIVE STATE — (MATCH WALLET-BTN POSITIVE) */
+.ai-controls button[aria-pressed="true"] {
+  border-color: rgba(0, 255, 180, .9);
+  box-shadow: 0 0 18px rgba(0, 255, 180, .75);
+  transform: scale(0.97);
+}
+
+/* NEGATIVE INTENT (DISABLED) */
+.ai-controls button[aria-pressed="true"][data-intent="negative"] {
+  border-color: rgba(255, 90, 90, .9);
+  box-shadow: 0 0 18px rgba(255, 80, 80, .75);
+}
+
+/* POSITIVE INTENT (ENABLED) */
+.ai-controls button[aria-pressed="true"][data-intent="positive"] {
+  border-color: rgba(0, 255, 180, .9);
+  box-shadow: 0 0 18px rgba(0, 255, 180, .75);
+}
+
+/* ACTIVE HOVER */
+.ai-controls button[aria-pressed="true"]:hover {
+  box-shadow: 0 0 22px rgba(0, 255, 180, .9);
+}
+
+.ai-controls button[aria-pressed="true"][data-intent="negative"]:hover {
+  box-shadow: 0 0 22px rgba(255, 80, 80, .9);
+}

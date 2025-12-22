@@ -1,0 +1,25 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+
+.wallet-security-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+.security-led {
+  margin-top: 10px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.security-led.safe {
+  color: #3cff8f;
+  box-shadow: 0 0 12px #3cff8f;
+}
+
+.security-led.unsafe {
+  color: #ff4d4d;
+  box-shadow: 0 0 12px #ff4d4d;
+}

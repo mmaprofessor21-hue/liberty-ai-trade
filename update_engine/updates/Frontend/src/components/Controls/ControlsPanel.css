@@ -1,0 +1,15 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+
+/* PROJECT-WIDE RULE:
+   NO CONTROLS CONTAINER MAY RESTRICT VERTICAL GROWTH
+*/
+
+.controls-grid,
+.controls-quadrant,
+.controls-section-block {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}

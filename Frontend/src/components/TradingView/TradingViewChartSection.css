@@ -1,0 +1,66 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+/* TIMESTAMP: 2025-12-21_15-01-22 */
+
+.tradingview-chart-section {
+  position: relative;
+  width: 100%;
+  margin: 32px 0;
+  height: auto;
+  display: block;
+  overflow: visible;
+
+  /* Dashboard background authority */
+  background-image: url('../../assets/Main_Liberty_background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 100% WIDTH CHART CONTAINER */
+.tv-chart-main-row {
+  width: 100%;
+  position: relative;
+  background: #000;
+  /* Prevent flickering */
+}
+
+/* CENTERED GLASSMORPHIC HEADER CONTAINER */
+.tv-header-centered-wrapper {
+  width: 100%;
+  max-width: 100%;
+  /* Ensure strict alignment with 100% chart */
+  box-sizing: border-box;
+  /* Critical: Include padding in width calculation */
+  margin: 0 0 12px 0;
+  position: relative;
+  z-index: 10;
+
+  /* Glassmorphism to match Wallet/Controls sections */
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  padding: 8px 12px;
+  /* Reduced vertical padding from 16px to 8px */
+}
+
+.tv-resize-handle-top {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 200, 255, 0.1);
+  cursor: n-resize;
+  border-top: 1px solid rgba(0, 200, 255, 0.2);
+  transition: all 0.2s ease;
+  z-index: 30;
+  border-radius: 4px 4px 0 0;
+  margin-bottom: 8px;
+}
+
+.tv-resize-handle-top:hover {
+  background: rgba(0, 200, 255, 0.3);
+  box-shadow: 0 -2px 10px rgba(0, 200, 255, 0.4);
+}

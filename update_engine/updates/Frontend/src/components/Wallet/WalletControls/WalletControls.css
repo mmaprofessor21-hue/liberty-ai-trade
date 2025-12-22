@@ -1,0 +1,10 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+
+.wallet-control-btn.active.connect {
+  box-shadow:
+    0 0 6px rgba(0, 255, 140, 0.9),
+    0 0 14px rgba(0, 255, 140, 0.9),
+    0 0 28px rgba(0, 255, 140, 0.85);
+  border-color: #00ff8c;
+}

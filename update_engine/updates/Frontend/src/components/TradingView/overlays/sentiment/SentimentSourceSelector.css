@@ -1,0 +1,21 @@
+
+.sentiment-source-wrapper {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sentiment-source-label {
+    font-size: 13px;
+    color: #dcdcdc;
+    font-weight: 600;
+}
+
+.sentiment-source-select {
+    padding: 8px;
+    background: #1b2130;
+    color: #e0e0e0;
+    border: 1px solid #32405f;
+    border-radius: 6px;
+}

@@ -1,0 +1,22 @@
+
+.history-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.history-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.05);
+    font-size: 14px;
+}
+
+.col-time { width: 55px; color: #bbbbbb; }
+.col-pair { width: 110px; color: #4da3ff; }
+.col-action { width: 55px; font-weight: 700; text-align: center; }
+.col-action.buy { color: #4dff8c; }
+.col-action.sell { color: #ff4d4d; }
+.col-amt { width: 80px; text-align: right; color: #dcdcdc; }

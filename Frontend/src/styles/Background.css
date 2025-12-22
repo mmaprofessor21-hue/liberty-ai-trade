@@ -1,0 +1,25 @@
+/* 🚨 BACKGROUND — BOTTOM EDGE DIVIDER ONLY */
+
+.app-background {
+  position: relative;
+}
+
+/* TOP DIVIDER ALREADY EXISTS — DO NOT TOUCH */
+
+/* BOTTOM DIVIDER (MATCH TOP EXACTLY) */
+.app-background::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 180, 255, 0),
+    rgba(0, 180, 255, 0.85),
+    rgba(0, 180, 255, 0)
+  );
+  box-shadow: 0 0 12px rgba(0, 180, 255, 0.9);
+  pointer-events: none;
+}

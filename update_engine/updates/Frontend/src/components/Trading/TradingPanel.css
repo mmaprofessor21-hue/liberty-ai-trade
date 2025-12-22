@@ -1,0 +1,30 @@
+
+/* TIMESTAMP: 2025-12-08 13:03:28 */
+
+.trading-panel {
+    padding: 25px;
+    background: #0c0f16;
+    border-radius: 10px;
+    margin-top: 20px;
+    color: #fff;
+}
+
+.trading-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.trading-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.trading-box {
+    background: #11141d;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #222533;
+}

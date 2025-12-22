@@ -1,0 +1,39 @@
+/* ✅ WALLET DATA (HOLDINGS / HISTORY) TERMINAL
+   DO NOT ADD HEIGHT LIMITS — TERMINAL NEEDS ROOM FOR DOCK/UNDOCK
+*/
+
+.wallet-data-terminal {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wallet-tabs {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.wallet-terminal {
+  margin-top: 10px;
+  padding: 10px 0 0 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  white-space: pre;
+  overflow: visible;
+}
+
+.wallet-data-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.7fr 1fr 0.7fr 0.7fr;
+  gap: 16px;
+  padding: 6px 0;
+}
+
+.wallet-data-row.header {
+  font-weight: bold;
+}
+
+.wallet-data-footer {
+  margin-top: 12px;
+  text-align: right;
+}

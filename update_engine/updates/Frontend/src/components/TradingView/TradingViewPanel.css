@@ -1,0 +1,95 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+/* TIMESTAMP: 2025-12-21_14-52-43 */
+
+/* TradingViewPanel.css
+   Contract:
+   - No hard height caps that collapse the TradingView widget
+   - Container grows organically with layout
+   - Inner chart area gets a usable min-height and flex fill
+*/
+
+.tv-panel-wrapper {
+  width: 100%;
+}
+
+.tv-ai-controls-wrapper {
+  margin-bottom: 15px;
+}
+
+/* IMPORTANT: remove fixed height caps */
+.tv-container.docked {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 520px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tv-container.floating {
+  position: fixed;
+  z-index: 9999;
+  width: 70vw;
+  height: 60vh;
+  min-width: 720px;
+  min-height: 520px;
+  max-width: 95vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Outer panel shell (kept minimal to avoid regressions) */
+.tv-panel {
+  width: 100%;
+  padding: 12px 0 0;
+}
+
+.tv-panel-inner {
+  border-radius: 24px;
+  padding: 18px 24px 24px;
+}
+
+/* The chart shell must be allowed to fill available height */
+.tv-chart-shell {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Widget host should fill the chart shell */
+.tv-widget-container {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 520px;
+  overflow: hidden;
+}
+
+.tv-widget-inner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Optional overlay chips (kept from existing UI expectations) */
+.tv-chip-long {
+  border-color: rgba(34, 197, 94, 0.8);
+  color: rgba(34, 197, 94, 0.95);
+}
+
+.tv-chip-short {
+  border-color: rgba(248, 113, 113, 0.8);
+  color: rgba(248, 113, 113, 0.95);
+}
+
+.tv-overlay-metric {
+  opacity: 0.9;
+}

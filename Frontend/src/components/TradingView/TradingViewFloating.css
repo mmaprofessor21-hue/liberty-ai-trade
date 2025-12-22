@@ -1,0 +1,48 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO PATH ASSUMPTIONS | 🚫 NO IMPORT OVERRIDES | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+/* TIMESTAMP PLACEHOLDER */
+
+.tv-floating-window {
+    position: fixed;
+    top: 80px;
+    left: 80px;
+    width: 900px;
+    height: 600px;
+    background: #0b0f1a;
+    border: 1px solid #00c8ff;
+    box-shadow: 0 0 25px rgba(0, 200, 255, 0.45);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    resize: both;
+    overflow: hidden;
+}
+
+.tv-floating-header {
+    height: 42px;
+    background: #08131f;
+    color: #00c8ff;
+    font-weight: 600;
+    padding: 10px 16px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tv-dock-btn {
+    padding: 4px 12px;
+    background: #00c8ff22;
+    border: 1px solid #00c8ff;
+    border-radius: 4px;
+    color: #00c8ff;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.tv-floating-body {
+    flex: 1;
+    overflow: hidden;
+}

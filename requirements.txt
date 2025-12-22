@@ -1,0 +1,12 @@
+flask
+requests
+python-dotenv
+flask-cors
+numpy
+pandas
+scipy
+xgboost
+websockets
+psutil
+solana
+werkzeug

@@ -1,0 +1,19 @@
+
+.holdings-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.holding-row {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.05);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.col-token { width: 60px; color: #4da3ff; font-weight: 600; }
+.col-amount { width: 80px; color: #d8d8d8; }
+.col-value { width: 80px; color: #8effa3; text-align: right; }

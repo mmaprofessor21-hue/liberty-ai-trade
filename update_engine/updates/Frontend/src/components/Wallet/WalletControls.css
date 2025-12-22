@@ -1,0 +1,96 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+/* TIMESTAMP PLACEHOLDER */
+
+.wallet-root {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+
+  background-image: url("../../assets/Main_Liberty_background.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+
+  /* ⬇️ UNIFORM GRID: ROOT DOES NOT OWN HORIZONTAL PADDING */
+  padding-top: 72px;
+  padding-bottom: 72px;
+  padding-left: 0;
+  padding-right: 0;
+
+  overflow: visible;
+}
+
+/* TOP DIVIDER — preserved */
+.wallet-root::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 150, 255, 0.95),
+    transparent
+  );
+
+  box-shadow:
+    0 0 8px rgba(0, 150, 255, 0.9),
+    0 0 16px rgba(0, 150, 255, 0.8);
+
+  pointer-events: none;
+}
+
+/* BOTTOM DIVIDER — preserved */
+.wallet-root::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 150, 255, 0.95),
+    transparent
+  );
+
+  box-shadow:
+    0 0 8px rgba(0, 150, 255, 0.9),
+    0 0 16px rgba(0, 150, 255, 0.8);
+
+  pointer-events: none;
+}
+
+/* WALLET INNER CONTAINERS — OWN THEIR PADDING (UNCHANGED) */
+.wallet-section {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+
+  padding: 22px 26px;
+  margin: 0 auto;
+
+  background: rgba(5, 18, 35, 0.72);
+  border: 1px solid rgba(0, 170, 255, 0.25);
+  border-radius: 14px;
+
+  box-shadow:
+    inset 0 0 18px rgba(0, 170, 255, 0.12),
+    0 0 18px rgba(0, 120, 255, 0.15);
+
+  overflow: visible;
+}
+
+.wallet-section:not(:last-child) {
+  margin-bottom: 22px;
+}

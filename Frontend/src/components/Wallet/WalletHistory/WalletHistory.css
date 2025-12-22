@@ -1,0 +1,98 @@
+.wallet-history-table {
+  width: 100%;
+  font-size: 13px;
+  color: #cad1d9;
+}
+
+.wallet-history-table.refreshing {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.wallet-history-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.wallet-history-table th {
+  background-color: #0d1626;
+  color: #8b949e;
+  font-weight: 600;
+  padding: 8px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #30363d;
+  cursor: pointer;
+  user-select: none;
+  font-size: 11px;
+}
+
+.wallet-history-table th:hover {
+  background-color: #161b22;
+  color: #c9d1d9;
+}
+
+.wallet-history-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #21262d;
+  white-space: nowrap;
+}
+
+.wallet-history-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.col-time {
+  font-family: monospace;
+  color: #8b949e;
+}
+
+.col-action {
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.col-token {
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.action-buy {
+  color: #3fb950;
+}
+
+.action-sell {
+  color: #f85149;
+}
+
+.action-fail {
+  color: #8b949e;
+}
+
+.status-badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-filled {
+  background-color: rgba(63, 185, 80, 0.15);
+  color: #3fb950;
+  border: 1px solid rgba(63, 185, 80, 0.4);
+}
+
+.status-failed {
+  background-color: rgba(248, 81, 73, 0.15);
+  color: #f85149;
+  border: 1px solid rgba(248, 81, 73, 0.4);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #8b949e;
+}

@@ -1,0 +1,11 @@
+# Ignore environment files
+.env
+
+# Ignore dependencies and build files
+node_modules/
+build/
+dist/
+
+# Ignore logs and cache
+.cache/
+logs/

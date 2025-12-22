@@ -1,0 +1,55 @@
+/* 🚨 DO NOT MODIFY OUTSIDE README_UPDATER.txt */
+
+/* ============================================================
+   HARD SECTION FIREWALL — DISCARD *ALL* INHERITED GLOW
+   ============================================================ */
+.controls-quadrant.top-right .controls-section-content button {
+  box-shadow: none;
+  outline: none;
+  filter: none;
+  text-shadow: none;
+}
+
+.controls-quadrant.top-right .controls-section-content button:focus,
+.controls-quadrant.top-right .controls-section-content button:focus-visible {
+  box-shadow: none;
+  outline: none;
+  filter: none;
+}
+
+/* ============================================================
+   AI CONTROLS BUTTON SYSTEM (ARIA-DRIVEN)
+   ============================================================ */
+.controls-quadrant.top-right .controls-section-content button {
+  text-transform: uppercase;
+  font-size: 1.2em;
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(0,145,255,0.65);
+  color: #e6f0ff;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+/* ON = GREEN */
+.controls-quadrant.top-right
+.controls-section-content
+button[aria-pressed="true"] {
+  box-shadow: 0 0 14px rgba(0,255,120,0.9);
+  transform: scale(0.97);
+}
+
+/* HOVER ON = GREEN */
+.controls-quadrant.top-right
+.controls-section-content
+button[aria-pressed="true"]:hover {
+  box-shadow: 0 0 20px rgba(0,255,120,1);
+}
+
+/* HOVER OFF = RED */
+.controls-quadrant.top-right
+.controls-section-content
+button[aria-pressed="false"]:hover {
+  box-shadow: 0 0 20px rgba(255,60,60,1);
+}

@@ -1,0 +1,18 @@
+.controls-section,
+.controls-section-inner,
+.controls-grid {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.controls-quadrant {
+  width: 100%;
+  max-width: 100%;
+}

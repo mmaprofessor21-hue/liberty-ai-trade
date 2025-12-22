@@ -1,0 +1,10 @@
+.ai-heatmap-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    /* Below markers (z-index 3) */
+}

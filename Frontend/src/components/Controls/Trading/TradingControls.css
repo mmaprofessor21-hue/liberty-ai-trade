@@ -1,0 +1,146 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* 🚫 NO IMPORT OVERRIDES | 🚫 NO PATH ASSUMPTIONS | ✅ ABSOLUTE STRUCTURE COMPLIANCE */
+
+.controls-section-block {
+  width: 100%;
+  margin-bottom: 32px;
+
+  /* Container styling matching AI Controls (Authority) */
+  padding: 24px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+/* SUB-SECTION TITLE — GOLD (ANCHOR) */
+.controls-section-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #f5c26b;
+  margin-bottom: 18px;
+  text-align: left;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+/* CONTROLS CONTENT — 2×2 GRID LAYOUT */
+.controls-section-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 32px;
+  width: 100%;
+}
+
+/* Individual control group wrapper */
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Control group label (MATCHES WALLET AUTHORITY) */
+.control-label,
+.tc-label {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  opacity: 0.95;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+/* Control buttons container */
+.control-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   TRADING CONTROLS — SECTION ISOLATION ROOT
+   ============================================================ */
+
+.tc-logging button,
+.tc-risk button,
+.tc-sniping button,
+.tc-strategy button {
+  min-width: 110px;
+  /* Slightly adjusted for grid density */
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(0, 35, 65, .95), rgba(0, 15, 35, .98));
+  color: #eaf6ff;
+  border: 1px solid rgba(0, 200, 255, .55);
+  transition: all 0.18s ease, transform 0.1s ease;
+  box-shadow: 0 0 10px rgba(0, 200, 255, .25);
+  outline: none;
+}
+
+/* HOVER (MATCH WALLET-BTN) */
+.tc-logging button:hover,
+.tc-risk button:hover,
+.tc-sniping button:hover,
+.tc-strategy button:hover {
+  box-shadow: 0 0 16px rgba(0, 200, 255, .5);
+}
+
+/* ============================================================
+   LOGGING MODE
+   OFF = RED | NORMAL / VERBOSE = GREEN
+   ============================================================ */
+
+.tc-logging button[aria-pressed="true"][data-intent="negative"] {
+  border-color: rgba(255, 90, 90, .9);
+  box-shadow: 0 0 18px rgba(255, 80, 80, .75);
+  transform: scale(0.97);
+}
+
+.tc-logging button[aria-pressed="true"][data-intent="positive"] {
+  border-color: rgba(0, 255, 180, .9);
+  box-shadow: 0 0 18px rgba(0, 255, 180, .75);
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   RISK LEVEL (GREEN ONLY)
+   ============================================================ */
+
+.tc-risk button[aria-pressed="true"] {
+  border-color: rgba(0, 255, 180, .9);
+  box-shadow: 0 0 18px rgba(0, 255, 180, .75);
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   SNIPING MODE
+   ON = GREEN | OFF = RED
+   ============================================================ */
+
+.tc-sniping button[aria-pressed="true"][data-intent="positive"] {
+  border-color: rgba(0, 255, 180, .9);
+  box-shadow: 0 0 18px rgba(0, 255, 180, .75);
+  transform: scale(0.97);
+}
+
+.tc-sniping button[aria-pressed="true"][data-intent="negative"] {
+  border-color: rgba(255, 90, 90, .9);
+  box-shadow: 0 0 18px rgba(255, 80, 80, .75);
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   STRATEGY (GREEN ONLY)
+   ============================================================ */
+
+.tc-strategy button[aria-pressed="true"] {
+  border-color: rgba(0, 255, 180, .9);
+  box-shadow: 0 0 18px rgba(0, 255, 180, .75);
+  transform: scale(0.97);
+}

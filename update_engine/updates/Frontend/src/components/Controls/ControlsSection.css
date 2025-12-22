@@ -1,0 +1,26 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt */
+/* ============================================================
+   CONTROLS SECTION — STRUCTURE ONLY
+   Legacy button glow rules removed
+   ============================================================ */
+
+.controls-section {
+  width: 100%;
+}
+
+.controls-section-inner {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.controls-title {
+  text-align: center;
+}
+
+.controls-subtitle {
+  text-align: center;
+}
+
+/* NO BUTTON STYLING HERE — BY DESIGN */

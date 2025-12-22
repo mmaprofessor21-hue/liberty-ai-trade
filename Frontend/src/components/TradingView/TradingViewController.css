@@ -1,0 +1,297 @@
+/* TIMESTAMP: 2025-12-09_20-12-41 */
+/* TradingViewController.css – chart shell + AI overlay styling */
+
+.tv-panel {
+  width: 100%;
+  padding: 12px 0 0;
+}
+
+.tv-panel-inner {
+  border-radius: 24px;
+  background: radial-gradient(circle at top left, #020617 0%, #020617 40%, #000000 100%);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.85);
+  padding: 18px 24px 24px;
+}
+
+.tv-chart-shell {
+  position: relative;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #020617 0%, #020617 35%, #020617 100%);
+  border: 1px dashed rgba(148, 163, 184, 0.35);
+  min-height: 320px;
+  overflow: hidden;
+}
+
+.tv-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.4);
+  pointer-events: none;
+  z-index: 0;
+  /* Base layer */
+}
+
+.tv-placeholder span {
+  animation: breathe 2s infinite ease-in-out;
+}
+
+@keyframes breathe {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.98);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+}
+
+.tv-overlay {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  /* Fix: Prevent overflow from padding */
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* Reduced from 12px */
+  background: transparent;
+  border: none;
+  backdrop-filter: none;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+.tv-overlay-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tv-overlay-row-metrics {
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.9);
+  width: 100%;
+}
+
+.tv-undock-btn {
+  pointer-events: auto;
+  padding: 6px 12px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 200, 255, 0.4);
+  border-radius: 4px;
+  color: #00c8ff;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  letter-spacing: 0.05em;
+}
+
+.tv-undock-btn:hover {
+  background: rgba(0, 200, 255, 0.15);
+  border-color: #00c8ff;
+  box-shadow: 0 0 15px rgba(0, 200, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.tv-overlay-label {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(229, 231, 235, 0.95);
+  font-weight: 800;
+}
+
+.tv-overlay-row-controls {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  /* Subtler separator */
+  padding-top: 8px;
+  /* Reduced from 12px */
+}
+
+.tv-menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  /* Reduced from 8px */
+}
+
+.tv-menu-title {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-bottom: 0px;
+  /* Reduced from 2px */
+}
+
+.tv-overlay-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tv-overlay-toggles button {
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tv-overlay-toggles button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.tv-overlay-toggles button.active {
+  background: rgba(0, 200, 255, 0.15);
+  border-color: #00c8ff;
+  color: #00c8ff;
+  box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
+}
+
+/* Merged Execution Group */
+.tv-execution-group {
+  transition: opacity 0.3s ease;
+}
+
+.tv-execution-group.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.tv-execution-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.tv-btn-buy,
+.tv-btn-sell {
+  padding: 8px 24px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tv-btn-buy {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ade80;
+}
+
+.tv-btn-buy:hover:not(:disabled) {
+  background: rgba(34, 197, 94, 0.25);
+  border-color: #4ade80;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+  transform: translateY(-1px);
+}
+
+.tv-btn-sell {
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  color: #f87171;
+}
+
+.tv-btn-sell:hover:not(:disabled) {
+  background: rgba(248, 113, 113, 0.25);
+  border-color: #f87171;
+  box-shadow: 0 0 15px rgba(248, 113, 113, 0.3);
+  transform: translateY(-1px);
+}
+
+.tv-amount-slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4px 12px;
+  /* Reduced vertical padding from 8px to 4px */
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tv-amount-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(217, 178, 109, 0.1);
+  /* Gold tint */
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+}
+
+.tv-amount-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #d9b26d;
+  /* Gold */
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(217, 178, 109, 0.5);
+}
+
+.tv-amount-display {
+  font-size: 12px;
+  font-weight: 800;
+  color: #00ffb2;
+  /* AI Green */
+  min-width: 50px;
+  text-align: right;
+}
+
+.tv-overlay-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: rgba(15, 23, 42, 0.86);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  color: rgba(226, 232, 240, 0.96);
+}
+
+.tv-chip-long {
+  border-color: rgba(34, 197, 94, 0.8);
+  color: rgba(34, 197, 94, 0.95);
+}
+
+.tv-chip-short {
+  border-color: rgba(248, 113, 113, 0.8);
+  color: rgba(248, 113, 113, 0.95);
+}
+
+.tv-overlay-metric {
+  opacity: 0.9;
+}

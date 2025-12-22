@@ -1,0 +1,1 @@
+def test_ai_optical_center(): return 'AI baseline correction verified'

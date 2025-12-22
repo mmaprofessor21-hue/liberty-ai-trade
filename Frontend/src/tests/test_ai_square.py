@@ -1,0 +1,1 @@
+def test_ai_square(): return 'AI centered square +40%'

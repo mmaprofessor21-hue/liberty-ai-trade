@@ -1,0 +1,11 @@
+/* 🚨 DO NOT MODIFY THIS FILE OUTSIDE THE RULES IN README_UPDATER.txt
+   ✅ WALLET ROOT — REMOVE TOP/BOTTOM SPACING ONLY
+   ✅ PRESERVES ALL OTHER SECTIONS AND FIXES
+*/
+
+.wallet-root{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

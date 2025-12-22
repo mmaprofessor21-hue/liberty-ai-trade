@@ -1,0 +1,40 @@
+
+/* TIMESTAMP: 2025-12-08 13:11:21 */
+.trading-sidebar {
+    width: 280px;
+    background: rgba(12, 18, 36, 0.88);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    padding: 18px;
+    color: #fff;
+}
+
+.sidebar-title {
+    font-size: 18px;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.sidebar-section {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-section input,
+.sidebar-section select {
+    padding: 8px;
+    background: #0f1628;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+}
+
+.apply-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background: #2a74ff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
