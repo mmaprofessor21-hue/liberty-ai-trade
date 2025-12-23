@@ -30,8 +30,8 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}/Backend
         run: |
           # Run tests in isolated forked processes to avoid global-state leakage
-          # Produce JUnit XML so we can upload test results as artifacts for debugging
-          pytest --forked -q tests --junitxml=results.xml || true
+          # Produce JUnit XML and capture full stdout/stderr to a log for artifact upload
+          pytest --forked -q tests --junitxml=results.xml | tee results.log || true
 
       - name: Upload backend test results
         uses: actions/upload-artifact@v4
@@ -39,6 +39,7 @@ jobs:
           name: backend-test-results
           path: |
             Backend/results.xml
+            Backend/results.log
             Backend/.pytest_cache || true
 
   frontend-build:
