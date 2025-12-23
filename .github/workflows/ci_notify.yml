@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Notify Slack on CI failure (safe, non-blocking)
         shell: bash
+        continue-on-error: true
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           REPO: ${{ github.repository }}
@@ -22,16 +23,15 @@ jobs:
           COMMIT: ${{ github.event.workflow_run.head_sha }}
           BRANCH: ${{ github.event.workflow_run.head_branch }}
         run: |
-          set +e  # 🔴 never fail this job
+          set +e
 
           if [ -z "$SLACK_WEBHOOK" ]; then
-            echo "ℹ️ SLACK_WEBHOOK not set — skipping Slack notification"
+            echo "ℹ️ SLACK_WEBHOOK not set — skipping notification"
             exit 0
           fi
 
-          # Validate webhook format without leaking it
           if ! printf '%s' "$SLACK_WEBHOOK" | grep -qE '^https://hooks\.slack\.com/'; then
-            echo "⚠️ SLACK_WEBHOOK is present but malformed — skipping notification"
+            echo "⚠️ SLACK_WEBHOOK malformed — skipping notification"
             exit 0
           fi
 
@@ -53,4 +53,4 @@ jobs:
               -H "Content-Type: application/json" \
               --data-binary @- \
               "$SLACK_WEBHOOK" || \
-            echo "⚠️ Slack notification failed but CI continues"
+            echo "⚠️ Slack notification failed (non-fatal)"
