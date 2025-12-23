@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 
 class SystemStatus(str, Enum):
@@ -27,7 +27,7 @@ class SystemState(BaseModel):
     # Health checks
     frontend_connected: bool = False
     backend_healthy: bool = True
-    active_errors: list[str] = []
+    active_errors: list[str] = Field(default_factory=list)
 
 
 # Single-source-of-truth runtime instance

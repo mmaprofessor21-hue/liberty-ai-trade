@@ -100,26 +100,18 @@ class ExecutionEngine:
 
         # 1. Emergency Stop Check
         if self.is_halted() or system_state.emergency:
-            logger.critical(
-                "GUARD: Trade BLOCKED - Emergency Stop Active or Engine Halted"
-            )
-            print("🛑 GUARD: Emergency Stop Active or Engine Halted")
+            logger.critical("GUARD: Trade BLOCKED - Emergency Stop Active or Engine Halted")
+            logger.warning("GUARD: Emergency Stop Active or Engine Halted")
             return False
 
         if system_state.status != SystemStatus.RUNNING:
-            logger.warning(
-                f"GUARD: Trade BLOCKED - System is {system_state.status}"
-            )
-            print(f"🛑 GUARD: System is {system_state.status}")
+            logger.warning(f"GUARD: Trade BLOCKED - System is {system_state.status}")
             return False
 
         # 2. Wallet Security Check
         wallet_status = await wallet_manager.get_status()
         if not wallet_status.connected or not wallet_status.is_safe:
-            logger.critical(
-                "GUARD: Trade BLOCKED - Wallet Unsafe or Disconnected"
-            )
-            print("🛑 GUARD: Wallet Unsafe/Disconnected")
+            logger.critical("GUARD: Trade BLOCKED - Wallet Unsafe or Disconnected")
             return False
 
         # 3. Risk Engine Check
@@ -157,12 +149,7 @@ class ExecutionEngine:
                 threshold = 0.8
 
             if confidence < threshold:
-                logger.warning(
-                    f"GUARD: Trade BLOCKED - AI Confidence {confidence} < {threshold}"
-                )
-                print(
-                    f"🛑 GUARD: AI Confidence Too Low ({confidence:.2f} < {threshold})"
-                )
+                logger.warning(f"GUARD: Trade BLOCKED - AI Confidence {confidence} < {threshold}")
                 return False
 
         # 6. Slippage Check (Stub)
@@ -181,25 +168,15 @@ class ExecutionEngine:
             signal.type,
         )
         if not sim_result:
-            logger.critical(
-                "GUARD: Trade BLOCKED - Simulation Failed"
-            )
-            print("🛑 GUARD: Transaction Simulation Failed")
+            logger.critical("GUARD: Trade BLOCKED - Simulation Failed")
             return False
 
         if self.is_halted() or system_state.emergency:
-            logger.critical(
-                "GUARD: Trade ABORTED - Emergency raised during processing"
-            )
-            print("🛑 GUARD: Emergency raised during processing")
+            logger.critical("GUARD: Trade ABORTED - Emergency raised during processing")
             return False
 
-        logger.info(
-            f"GUARD: PASS. Executing {signal.type} {amount_to_trade} SOL"
-        )
-        print(
-            f"✅ EXECUTING {signal.type} | {amount_to_trade:.4f} SOL"
-        )
+        logger.info(f"GUARD: PASS. Executing {signal.type} {amount_to_trade} SOL")
+        logger.info(f"EXECUTING {signal.type} | {amount_to_trade:.4f} SOL")
 
         # TODO: Wallet signing + broadcast
 
