@@ -56,6 +56,25 @@ class ExecutionEngine:
         """
         return bool(self.halted)
 
+    def reset_halt(self):
+        """Reset halted state for tests or controlled restarts.
+
+        This is intentionally explicit and should only be used in safe
+        administrative or test contexts.
+        """
+        try:
+            with self._cancel_lock:
+                self.halted = False
+                self.halted_since = None
+                try:
+                    self._active_orders.clear()
+                except Exception:
+                    pass
+                logger.info("ExecutionEngine: reset_halt called — engine resumed")
+        except Exception:
+            logger.exception("Error during reset_halt")
+        return True
+
     async def execute_signal(self, signal: TradeSignal):
         """
         EXECUTION GUARD (NON-NEGOTIABLE)

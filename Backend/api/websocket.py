@@ -98,7 +98,17 @@ async def start_data_engine():
                 }
                 for q in getattr(data_engine, "listeners", []):
                     try:
-                        await q.put(payload)
+                        # Prefer non-blocking put to avoid stalling broadcaster
+                        # If the queue cannot accept immediately, schedule a put task
+                        try:
+                            q.put_nowait(payload)
+                        except Exception:
+                            # Some queue types may block; schedule asynchronously
+                            try:
+                                asyncio.create_task(q.put(payload))
+                            except Exception:
+                                # As a last resort, ignore to keep broadcaster alive
+                                pass
                     except Exception:
                         pass
             except Exception:
