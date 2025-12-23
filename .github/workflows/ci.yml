@@ -28,7 +28,9 @@ jobs:
         working-directory: Backend
         env:
           PYTHONPATH: ${{ github.workspace }}/Backend
-        run: pytest -q tests
+        run: |
+          # Run tests in isolated forked processes to avoid global-state leakage
+          pytest --forked -q tests
 
   frontend-build:
     name: Frontend build

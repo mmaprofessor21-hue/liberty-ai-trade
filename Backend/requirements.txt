@@ -12,4 +12,5 @@ websockets
 python-telegram-bot
 PyJWT
 pytest
+pytest-forked
 psutil
