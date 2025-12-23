@@ -20,9 +20,15 @@ class ConnectionState(str, Enum):
 
 class SystemState(BaseModel):
     status: SystemStatus = SystemStatus.STOPPED
+    # Emergency flag used by shutdown/halt logic
+    emergency: bool = False
     execution_mode: ExecutionMode = ExecutionMode.LOCAL
     wallet_connection: ConnectionState = ConnectionState.DISCONNECTED
     # Health checks
     frontend_connected: bool = False
     backend_healthy: bool = True
     active_errors: list[str] = []
+
+
+# Single-source-of-truth runtime instance
+system_state = SystemState()

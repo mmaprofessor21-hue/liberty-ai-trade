@@ -12,7 +12,23 @@ from api.telemetry import router as telemetry_router
 @asynccontextmanager
 async def lifespan(app):
     # startup
+    # Ensure execution engine is in a clean state on startup (helps tests)
+    try:
+        from execution.engine import execution_engine
+        if hasattr(execution_engine, "reset_halt"):
+            execution_engine.reset_halt()
+    except Exception:
+        pass
+
     await start_data_engine()
+
+    # Ensure a final reset after any startup side-effects
+    try:
+        from execution.engine import execution_engine
+        if hasattr(execution_engine, "reset_halt"):
+            execution_engine.reset_halt()
+    except Exception:
+        pass
     try:
         yield
     finally:

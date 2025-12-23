@@ -1,6 +1,7 @@
 import logging
 import threading
 import time
+import builtins
 
 from core.control_router import trading_state, system_state
 from core.system_state import SystemStatus
@@ -13,10 +14,15 @@ logger = logging.getLogger(__name__)
 
 class ExecutionEngine:
     def __init__(self):
-        self.halted = False
-        self.halted_since = None
+        # Share halt state across import variants by using a process-wide builtin slot.
+        if not hasattr(builtins, "_liberty_execution_state"):
+            builtins._liberty_execution_state = {
+                "halted": False,
+                "halted_since": None,
+                "active_orders": [],
+            }
+        self._shared = builtins._liberty_execution_state
         self._cancel_lock = threading.Lock()
-        self._active_orders = []
 
     def cancel_all(self):
         """
@@ -38,6 +44,7 @@ class ExecutionEngine:
                 self.halted_since = time.time()
 
                 try:
+                    # clear shared active orders list
                     self._active_orders.clear()
                 except Exception:
                     pass
@@ -200,3 +207,12 @@ class ExecutionEngine:
 
 
 execution_engine = ExecutionEngine()
+
+# Expose convenient properties that map to the shared state
+def _prop(name):
+    return property(lambda self: self._shared.get(name), lambda self, v: self._shared.__setitem__(name, v))
+
+# attach dynamic properties to ExecutionEngine
+ExecutionEngine.halted = _prop("halted")
+ExecutionEngine.halted_since = _prop("halted_since")
+ExecutionEngine._active_orders = property(lambda self: self._shared.get("active_orders"))
