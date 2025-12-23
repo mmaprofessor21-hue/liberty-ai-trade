@@ -1,12 +1,13 @@
-# Ignore environment files
+# Environment
 .env
+.venv/
 
-# Ignore dependencies and build files
-node_modules/
-build/
-dist/
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
 
-# Ignore logs and cache
+# Logs / cache
 .cache/
 logs/
-.venv/
+

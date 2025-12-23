@@ -76,7 +76,7 @@ export default function TradingViewChartSection({ aiMode }) {
     }, 1200); // 1.2s delay for stabilization
 
     return () => clearTimeout(timer);
-  }, [docked, aiMode]);
+  }, [docked, aiMode, chartHeight]);
 
   const handleBuy = () => {
     console.log(`[EXECUTION] BUY Order placed for $${tradeAmount} BTCUSDT`);

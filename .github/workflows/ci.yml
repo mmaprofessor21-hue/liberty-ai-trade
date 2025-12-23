@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 jobs:
   backend-tests:
@@ -12,37 +12,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - name: Install dependencies
+
+      - name: Install backend dependencies
         working-directory: Backend
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run pytest
+
+      - name: Run backend tests
         working-directory: Backend
-        run: |
-          pytest -q tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/Backend
+        run: pytest -q tests
 
   frontend-build:
     name: Frontend build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js
+
+      - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
+
       - name: Install frontend dependencies
         working-directory: Frontend
-        run: |
-          npm ci
+        run: npm install
+
       - name: Build frontend
         working-directory: Frontend
-        run: |
-          npm run build --if-present
-
-  # Optional: add frontend tests job later
+        run: npm run build

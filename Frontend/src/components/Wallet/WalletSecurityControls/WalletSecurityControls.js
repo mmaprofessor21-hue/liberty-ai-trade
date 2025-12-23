@@ -5,7 +5,7 @@ import "./WalletSecurityControls.css";
 
 export default function WalletSecurityControls() {
   const [connection, setConnection] = useState("connect");
-  const [secure, setSecure] = useState(true);
+  const [secure] = useState(true);
 
   return (
     <div className="wallet-security-root wallet-security-controls">
