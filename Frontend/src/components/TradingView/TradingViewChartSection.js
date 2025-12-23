@@ -26,29 +26,44 @@ export default function TradingViewChartSection({ aiMode }) {
     ema: true, vwap: false, sr: false, volume: true
   });
 
+  // MARKERS state is used by websocket message handler; keep it above that effect
+  const [markers, setMarkers] = useState([
+    { type: "buy", x: 0.2, y: 0.3, style: { size: 6, color: "#00ffb2", glow: "rgba(0, 255, 180, 0.4)" } },
+    { type: "sell", x: 0.5, y: 0.7, style: { size: 6, color: "#ff4d4d", glow: "rgba(255, 80, 80, 0.4)" } }
+  ]);
+
   const startVerticalResize = (e) => {
     e.preventDefault();
     const startY = e.clientY;
     const startHeight = chartHeight;
 
-    const onMouseMove = (moveEvent) => {
-      // Dragging UP decreases clientY, meaning a positive delta increases height
+    // Attach named handlers to `window` so they can be removed on unmounts
+    window.__tv_onMouseMove = (moveEvent) => {
       const delta = startY - moveEvent.clientY;
       setChartHeight(Math.max(400, Math.min(1200, startHeight + delta)));
     };
 
-    const onMouseUp = () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
+    window.__tv_onMouseUp = () => {
+      if (window.__tv_onMouseMove) {
+        window.removeEventListener("mousemove", window.__tv_onMouseMove);
+        delete window.__tv_onMouseMove;
+      }
+      if (window.__tv_onMouseUp) {
+        window.removeEventListener("mouseup", window.__tv_onMouseUp);
+        delete window.__tv_onMouseUp;
+      }
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("mousemove", window.__tv_onMouseMove);
+    window.addEventListener("mouseup", window.__tv_onMouseUp);
   };
 
   useEffect(() => {
-    console.log(`[TradingViewChartSection] Effect initializing. Docked: ${docked} | Height: ${chartHeight}`);
+    if (typeof window === "undefined" || typeof document === "undefined") return;
 
+    console.log(`[TradingViewChartSection] Effect initializing. Docked: ${docked}`);
+
+    let widget = null;
     const timer = setTimeout(() => {
       const container = document.getElementById(TRADINGVIEW_CONTAINER_ID);
       if (!container) {
@@ -56,7 +71,7 @@ export default function TradingViewChartSection({ aiMode }) {
         return;
       }
 
-      const widget = createTradingViewWidget({
+      widget = createTradingViewWidget({
         container: TRADINGVIEW_CONTAINER_ID,
         symbol: "BINANCE:BTCUSDT",
         interval: "15"
@@ -66,17 +81,30 @@ export default function TradingViewChartSection({ aiMode }) {
         const floatWindow = document.querySelector(".tv-floating-window");
         if (floatWindow) enableDrag(floatWindow);
       }
+    }, 1200); // 1.2s delay for stabilization
 
-      return () => {
+    return () => {
+      clearTimeout(timer);
+      try {
         if (widget && typeof widget.remove === "function") {
           console.log("[TradingViewChartSection] Widget cleanup.");
           widget.remove();
         }
-      };
-    }, 1200); // 1.2s delay for stabilization
-
-    return () => clearTimeout(timer);
-  }, [docked, aiMode, chartHeight]);
+      } catch (err) {
+        console.warn("[TradingViewChartSection] Error during widget cleanup:", err);
+      }
+      // Ensure any lingering drag listeners are removed
+      if (window.__tv_onMouseMove) {
+        window.removeEventListener('mousemove', window.__tv_onMouseMove);
+        delete window.__tv_onMouseMove;
+      }
+      if (window.__tv_onMouseUp) {
+        window.removeEventListener('mouseup', window.__tv_onMouseUp);
+        delete window.__tv_onMouseUp;
+      }
+    };
+    // Only recreate widget when docking state or aiMode changes
+  }, [docked, aiMode]);
 
   const handleBuy = () => {
     console.log(`[EXECUTION] BUY Order placed for $${tradeAmount} BTCUSDT`);
@@ -122,11 +150,6 @@ export default function TradingViewChartSection({ aiMode }) {
       ws.close();
     };
   }, []);
-
-  const [markers, setMarkers] = useState([
-    { type: "buy", x: 0.2, y: 0.3, style: { size: 6, color: "#00ffb2", glow: "rgba(0, 255, 180, 0.4)" } },
-    { type: "sell", x: 0.5, y: 0.7, style: { size: 6, color: "#ff4d4d", glow: "rgba(255, 80, 80, 0.4)" } }
-  ]);
 
   const renderContent = () => (
     <>

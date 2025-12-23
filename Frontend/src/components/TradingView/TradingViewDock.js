@@ -4,10 +4,12 @@
 import React from "react";
 import "./TradingViewDock.css";
 
-export default function TradingViewDock({ children }) {
+const TradingViewDock = React.memo(function TradingViewDock({ children }) {
   return (
     <div className="dock-wrapper" style={{ position: "relative" }}>
-      {children}
+      {children || null}
     </div>
   );
-}
+});
+
+export default TradingViewDock;

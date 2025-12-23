@@ -5,7 +5,8 @@ import "./WalletSecurityControls.css";
 
 export default function WalletSecurityControls() {
   const [connection, setConnection] = useState("connect");
-  const [secure] = useState(true);
+  // `secure` is currently a read-only indicator; use a plain constant to avoid unused-setter lint warnings
+  const secure = true;
 
   return (
     <div className="wallet-security-root wallet-security-controls">
@@ -21,6 +22,7 @@ export default function WalletSecurityControls() {
           <div className="wallet-label">CONNECTION</div>
           <div className="wallet-btn-group">
             <button
+              type="button"
               className="wallet-btn"
               data-intent="positive"
               aria-pressed={connection === "connect"}
@@ -29,6 +31,7 @@ export default function WalletSecurityControls() {
               CONNECT
             </button>
             <button
+              type="button"
               className="wallet-btn"
               data-intent="negative"
               aria-pressed={connection === "disconnect"}
@@ -42,8 +45,8 @@ export default function WalletSecurityControls() {
             FUNDS
           </div>
           <div className="wallet-btn-group">
-            <button className="wallet-btn" data-intent="neutral">DEPOSIT</button>
-            <button className="wallet-btn" data-intent="neutral">WITHDRAW</button>
+            <button type="button" className="wallet-btn" data-intent="neutral">DEPOSIT</button>
+            <button type="button" className="wallet-btn" data-intent="neutral">WITHDRAW</button>
           </div>
         </div>
 
