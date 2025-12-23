@@ -8,12 +8,11 @@ on:
 
 jobs:
   notify-on-failure:
-    # Only run this job if the CI workflow failed
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    if: ${{ github.event.workflow_run.conclusion != 'success' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Notify Slack on CI failure
+      - name: Notify Slack on CI failure (safe, non-blocking)
         shell: bash
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -23,10 +22,16 @@ jobs:
           COMMIT: ${{ github.event.workflow_run.head_sha }}
           BRANCH: ${{ github.event.workflow_run.head_branch }}
         run: |
-          set -e
+          set +e  # 🔴 never fail this job
 
           if [ -z "$SLACK_WEBHOOK" ]; then
-            echo "No SLACK_WEBHOOK set; skipping Slack notification"
+            echo "ℹ️ SLACK_WEBHOOK not set — skipping Slack notification"
+            exit 0
+          fi
+
+          # Validate webhook format without leaking it
+          if ! printf '%s' "$SLACK_WEBHOOK" | grep -qE '^https://hooks\.slack\.com/'; then
+            echo "⚠️ SLACK_WEBHOOK is present but malformed — skipping notification"
             exit 0
           fi
 
@@ -36,11 +41,16 @@ jobs:
             --arg url "$RUN_URL" \
             --arg commit "$COMMIT" \
             --arg branch "$BRANCH" \
-            '{text: "❌ CI FAILED\nRepo: \($repo)\nWorkflow: \($wf)\nBranch: \($branch)\nCommit: \($commit)\n\($url)"}')
+            '{text: ("❌ CI FAILED\n" +
+                     "Repo: " + $repo + "\n" +
+                     "Workflow: " + $wf + "\n" +
+                     "Branch: " + $branch + "\n" +
+                     "Commit: " + $commit + "\n" +
+                     "<" + $url + "|View run>") }')
 
-          curl -s -X POST \
-            -H "Content-type: application/json" \
-            --data "$payload" \
-            "$SLACK_WEBHOOK"
-
-          echo "Slack notification sent successfully"
+          printf '%s' "$payload" | \
+            curl -sS -X POST \
+              -H "Content-Type: application/json" \
+              --data-binary @- \
+              "$SLACK_WEBHOOK" || \
+            echo "⚠️ Slack notification failed but CI continues"
