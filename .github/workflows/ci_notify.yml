@@ -2,7 +2,7 @@ name: CI Notify
 
 on:
   workflow_run:
-    workflows: [CI]
+    workflows: ["CI"]
     types:
       - completed
 
@@ -10,6 +10,7 @@ jobs:
   notify-on-failure:
     if: ${{ github.event.workflow_run.conclusion != 'success' }}
     runs-on: ubuntu-latest
+
     steps:
       - name: Notify Slack on CI failure
         env:
@@ -25,15 +26,20 @@ jobs:
             exit 0
           fi
 
-          PAYLOAD=$(jq -n \
+          payload=$(jq -n \
             --arg repo "$REPO" \
             --arg wf "$WORKFLOW" \
             --arg url "$RUN_URL" \
             --arg commit "$COMMIT" \
             --arg branch "$BRANCH" \
-            '{text: "❌ CI Failure\nRepo: \($repo)\nWorkflow: \($wf)\nBranch: \($branch)\nCommit: \($commit)\n<\($url)|View run>"}')
+            '{text: ("❌ CI FAILED\n" +
+                     "Repo: " + $repo + "\n" +
+                     "Workflow: " + $wf + "\n" +
+                     "Branch: " + $branch + "\n" +
+                     "Commit: " + $commit + "\n" +
+                     "<" + $url + "|View run>") }')
 
-          curl -s -S -X POST \
-            -H "Content-Type: application/json" \
-            --data "$PAYLOAD" \
+          curl -s -X POST \
+            -H "Content-type: application/json" \
+            --data "$payload" \
             "$SLACK_WEBHOOK"
