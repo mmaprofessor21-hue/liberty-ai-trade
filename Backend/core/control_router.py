@@ -52,7 +52,7 @@ class AIConfig(BaseModel):
     strategy: AIStrategy = AIStrategy.MOMENTUM
     confidence_threshold: AIConfidence = AIConfidence.MEDIUM
 
-from .system_state import SystemStatus
+from .system_state import SystemStatus, SystemState, system_state
 from core.auth import require_admin
 from core.rate_limiter import rate_limit
 from data.engine import data_engine
@@ -66,7 +66,11 @@ class SystemConfig(BaseModel):
 
 trading_state = TradingConfig()
 ai_state = AIConfig()
-system_state = SystemConfig()
+# Use the canonical shared SystemState instance from core.system_state
+# Do NOT rebind a separate local copy — import the single source of truth.
+# `system_state` below refers to the shared Pydantic instance.
+
+# system_state imported from core.system_state above
 
 # --- Endpoints ---
 
@@ -124,8 +128,15 @@ async def update_system_config(config: SystemConfig, _auth=Depends(require_admin
         # Trigger Emergency Logic
         from .emergency import trigger_emergency_stop
         trigger_emergency_stop()
-        
-    system_state = config
+    # Apply incoming config to the shared SystemState instance (do not rebind)
+    try:
+        # map fields conservatively
+        system_state.status = config.status
+        system_state.emergency = config.emergency
+    except Exception:
+        # best-effort: do not raise for API callers
+        pass
+
     try:
         msg = {"event": "controls.state", "payload": {"system": system_state.model_dump()}}
         for q in getattr(data_engine, "listeners", []):
@@ -135,4 +146,5 @@ async def update_system_config(config: SystemConfig, _auth=Depends(require_admin
                 pass
     except Exception:
         pass
+
     return {"status": "updated", "config": system_state}
