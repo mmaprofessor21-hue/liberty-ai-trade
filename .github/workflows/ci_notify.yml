@@ -8,35 +8,39 @@ on:
 
 jobs:
   notify-on-failure:
-    if: ${{ github.event.workflow_run.conclusion != 'success' }}
+    # Only run this job if the CI workflow failed
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-latest
 
     steps:
-- name: Notify Slack on CI failure
-  if: failure()
-  shell: bash
-  env:
-    SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    REPO: ${{ github.repository }}
-    WORKFLOW: ${{ github.workflow }}
-    RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    COMMIT: ${{ github.sha }}
-    BRANCH: ${{ github.ref_name }}
-  run: |
-    if [ -z "$SLACK_WEBHOOK" ]; then
-      echo "No SLACK_WEBHOOK set; skipping Slack notification"
-      exit 0
-    fi
+      - name: Notify Slack on CI failure
+        shell: bash
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          REPO: ${{ github.repository }}
+          WORKFLOW: ${{ github.event.workflow_run.name }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          COMMIT: ${{ github.event.workflow_run.head_sha }}
+          BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          set -e
 
-    payload=$(jq -n \
-      --arg repo "$REPO" \
-      --arg wf "$WORKFLOW" \
-      --arg url "$RUN_URL" \
-      --arg commit "$COMMIT" \
-      --arg branch "$BRANCH" \
-      '{text: "❌ CI FAILED\nRepo: \($repo)\nWorkflow: \($wf)\nBranch: \($branch)\nCommit: \($commit)\n\($url)"}')
+          if [ -z "$SLACK_WEBHOOK" ]; then
+            echo "No SLACK_WEBHOOK set; skipping Slack notification"
+            exit 0
+          fi
 
-    curl -s -X POST \
-      -H "Content-type: application/json" \
-      --data "$payload" \
-      "$SLACK_WEBHOOK"
+          payload=$(jq -n \
+            --arg repo "$REPO" \
+            --arg wf "$WORKFLOW" \
+            --arg url "$RUN_URL" \
+            --arg commit "$COMMIT" \
+            --arg branch "$BRANCH" \
+            '{text: "❌ CI FAILED\nRepo: \($repo)\nWorkflow: \($wf)\nBranch: \($branch)\nCommit: \($commit)\n\($url)"}')
+
+          curl -s -X POST \
+            -H "Content-type: application/json" \
+            --data "$payload" \
+            "$SLACK_WEBHOOK"
+
+          echo "Slack notification sent successfully"
