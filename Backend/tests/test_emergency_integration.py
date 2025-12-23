@@ -15,8 +15,11 @@ def test_emergency_via_api_sets_halt(monkeypatch):
 
     client = TestClient(app)
 
-    # Sanity pre-check
-    assert not execution_engine.is_halted()
+    # Sanity pre-check — be defensive if older engine lacks helper
+    if hasattr(execution_engine, "is_halted"):
+        assert not execution_engine.is_halted()
+    else:
+        assert not getattr(execution_engine, "halted", False)
     assert system_state.status != SystemStatus.EMERGENCY
 
     # Act: call the control endpoint to trigger emergency
