@@ -21,30 +21,17 @@ jobs:
           COMMIT: ${{ github.event.workflow_run.head_commit.id }}
           BRANCH: ${{ github.event.workflow_run.head_branch }}
         run: |
+          # Skip gracefully when webhook not configured
           if [ -z "$SLACK_WEBHOOK" ]; then
             echo "No SLACK_WEBHOOK set; skipping notification"
             exit 0
           fi
 
-          PAYLOAD=$(jq -n \
-            --arg repo "$REPO" \
-            --arg wf "$WORKFLOW" \
-            --arg url "$RUN_URL" \
-            --arg commit "$COMMIT" \
-            --arg branch "$BRANCH" \
-            '{
-              text: (
-                "CI Failure\n" +
-                "Repo: " + $repo + "\n" +
-                "Workflow: " + $wf + "\n" +
-                "Branch: " + $branch + "\n" +
-                "Commit: " + $commit + "\n" +
-                "<" + $url + "|View run>"
-              )
-            }'
-          )
+          # Build payload without jq to avoid requiring extra packages in runner
+          PAYLOAD=$(printf '{"text":"CI Failure\nRepo: %s\nWorkflow: %s\nBranch: %s\nCommit: %s\n<%s|View run>"}' "$REPO" "$WORKFLOW" "$BRANCH" "$COMMIT" "$RUN_URL")
 
+          # Send notification but do not fail the job if Slack returns non-2xx
           curl -s -S -X POST \
             -H "Content-type: application/json" \
             --data "$PAYLOAD" \
-            "$SLACK_WEBHOOK"
+            "$SLACK_WEBHOOK" || echo "Slack notify failed or returned non-2xx; continuing"
