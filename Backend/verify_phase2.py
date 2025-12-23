@@ -6,10 +6,14 @@ from execution.wallet import wallet_manager
 from trading.engine import TradeSignal, SignalType
 
 async def run_verification():
-    print("--- STARTING PHASE 2 VERIFICATION ---")
+import logging
+
+logger = logging.getLogger(__name__)
+
+logger.info("--- STARTING PHASE 2 VERIFICATION ---")
 
     # 1. Setup Initial State
-    print("\n[Step 1] Setting up Initial State...")
+    logger.info("\n[Step 1] Setting up Initial State...")
     system_state.status = SystemStatus.RUNNING
     system_state.emergency = False
     trading_state.risk_level = RiskLevel.MEDIUM
@@ -17,10 +21,10 @@ async def run_verification():
     
     await wallet_manager.connect()
     w_status = await wallet_manager.get_status()
-    print(f"Wallet Connected: {w_status.connected}, Balance: {w_status.balance_sol} SOL")
+    logger.info(f"Wallet Connected: {w_status.connected}, Balance: {w_status.balance_sol} SOL")
 
     # 2. Test Valid Trade
-    print("\n[Step 2] Testing Valid Trade (Medium Risk)...")
+    logger.info("\n[Step 2] Testing Valid Trade (Medium Risk)...")
     signal_valid = TradeSignal(
         type=SignalType.BUY,
         symbol="SOL/USDC",
@@ -29,24 +33,24 @@ async def run_verification():
         strategy="STANDARD_TEST"
     )
     result = await execution_engine.execute_signal(signal_valid)
-    print(f"Trade Execution Result: {'SUCCESS' if result else 'FAILED'} (Expected: SUCCESS)")
+    logger.info(f"Trade Execution Result: {'SUCCESS' if result else 'FAILED'} (Expected: SUCCESS)")
 
     # 3. Test High Risk Adjustment
-    print("\n[Step 3] Testing High Risk Configuration...")
+    logger.info("\n[Step 3] Testing High Risk Configuration...")
     trading_state.risk_level = RiskLevel.HIGH
     result = await execution_engine.execute_signal(signal_valid)
-    print(f"Trade Execution Result: {'SUCCESS' if result else 'FAILED'} (Expected: SUCCESS with larger size)")
+    logger.info(f"Trade Execution Result: {'SUCCESS' if result else 'FAILED'} (Expected: SUCCESS with larger size)")
 
     # 4. Test Emergency Stop
-    print("\n[Step 4] Testing Emergency Stop...")
+    logger.info("\n[Step 4] Testing Emergency Stop...")
     system_state.emergency = True
     result = await execution_engine.execute_signal(signal_valid)
-    print(f"Trade Execution Result: {'SUCCESS' if result else 'FAILED'} (Expected: FAILED)")
+    logger.info(f"Trade Execution Result: {'SUCCESS' if result else 'FAILED'} (Expected: FAILED)")
 
     # 5. Reset Emergency
     system_state.emergency = False
 
-    print("\n--- VERIFICATION COMPLETE ---")
+    logger.info("\n--- VERIFICATION COMPLETE ---")
 
 if __name__ == "__main__":
     asyncio.run(run_verification())

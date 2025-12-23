@@ -1,5 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional
+import logging
+
+logger = logging.getLogger(__name__)
 
 class WalletStatus(BaseModel):
     connected: bool = False
@@ -39,11 +42,11 @@ class WalletManager:
         """
         # Stub logic:
         if amount > self.status.balance_sol:
-            print("🛑 WALLET: Simulation failed - Insufficient balance")
+            logger.critical("WALLET: Simulation failed - Insufficient balance")
             return False
             
         if self.status.is_safe == False:
-             print("🛑 WALLET: Simulation failed - Wallet compromised/unsafe")
+             logger.critical("WALLET: Simulation failed - Wallet compromised/unsafe")
              return False
 
         # In prod: call RPC simulateTransaction

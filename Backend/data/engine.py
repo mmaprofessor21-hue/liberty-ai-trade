@@ -1,7 +1,10 @@
 import asyncio
 import random
 import time
+import logging
 from typing import List, Dict
+
+logger = logging.getLogger(__name__)
 
 class DataEngine:
     def __init__(self, allow_demo: bool = False):
@@ -20,7 +23,7 @@ class DataEngine:
         can display 'Unavailable' rather than simulated values.
         """
         self.running = True
-        print("Starting Data Engine Stream...")
+        logger.info("Starting Data Engine Stream...")
         while self.running:
             if not self.allow_demo:
                 # Inform listeners that market data is unavailable

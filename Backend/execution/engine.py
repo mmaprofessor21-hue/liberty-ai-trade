@@ -2,6 +2,7 @@ import logging
 import threading
 import time
 import builtins
+from collections import deque
 
 from core.control_router import trading_state, system_state
 from core.system_state import SystemStatus
@@ -19,7 +20,9 @@ class ExecutionEngine:
             builtins._liberty_execution_state = {
                 "halted": False,
                 "halted_since": None,
-                "active_orders": [],
+                # Use a deque for efficient thread-safe append/clear patterns;
+                # access must be guarded by `_cancel_lock` for consistency.
+                "active_orders": deque(),
             }
         self._shared = builtins._liberty_execution_state
         self._cancel_lock = threading.Lock()
@@ -40,12 +43,13 @@ class ExecutionEngine:
                     )
                     return True
 
+                # set halted state
                 self.halted = True
                 self.halted_since = time.time()
 
+                # clear active orders under lock
                 try:
-                    # clear shared active orders list
-                    self._active_orders.clear()
+                    self.clear_active_orders()
                 except Exception:
                     pass
 
@@ -74,7 +78,7 @@ class ExecutionEngine:
                 self.halted = False
                 self.halted_since = None
                 try:
-                    self._active_orders.clear()
+                    self.clear_active_orders()
                 except Exception:
                     pass
                 logger.info("ExecutionEngine: reset_halt called — engine resumed")
@@ -123,10 +127,7 @@ class ExecutionEngine:
         amount_to_trade = risk_params.max_position_size_sol
 
         if not risk_engine.validate_trade(amount_to_trade, risk_params):
-            logger.warning(
-                "GUARD: Trade BLOCKED - Risk Limits Exceeded"
-            )
-            print("🛑 GUARD: Risk Check Failed")
+            logger.warning("GUARD: Trade BLOCKED - Risk Limits Exceeded")
             return False
 
         # 4. Strategy Validity Check
@@ -178,6 +179,12 @@ class ExecutionEngine:
         logger.info(f"GUARD: PASS. Executing {signal.type} {amount_to_trade} SOL")
         logger.info(f"EXECUTING {signal.type} | {amount_to_trade:.4f} SOL")
 
+        # Add to active orders under lock (best-effort; real system would persist)
+        try:
+            self.add_active_order({"symbol": signal.symbol, "amount": amount_to_trade, "type": str(signal.type)})
+        except Exception:
+            logger.exception("Failed to record active order")
+
         # TODO: Wallet signing + broadcast
 
         return True
@@ -189,7 +196,50 @@ execution_engine = ExecutionEngine()
 def _prop(name):
     return property(lambda self: self._shared.get(name), lambda self, v: self._shared.__setitem__(name, v))
 
+
 # attach dynamic properties to ExecutionEngine
 ExecutionEngine.halted = _prop("halted")
 ExecutionEngine.halted_since = _prop("halted_since")
-ExecutionEngine._active_orders = property(lambda self: self._shared.get("active_orders"))
+
+
+# Active orders helpers: access must be protected by the engine's _cancel_lock
+def _active_orders_list(self):
+    # Return a shallow copy list for safe iteration
+    ao = self._shared.get("active_orders")
+    try:
+        return list(ao)
+    except Exception:
+        return []
+
+ExecutionEngine._active_orders = property(_active_orders_list)
+
+# Instance methods for thread-safe active_orders manipulation
+def _add_active_order(self, order):
+    with self._cancel_lock:
+        ao = self._shared.get("active_orders")
+        try:
+            ao.append(order)
+        except Exception:
+            # Fallback: recreate as list
+            self._shared["active_orders"] = deque(list(ao) + [order])
+
+def _clear_active_orders(self):
+    with self._cancel_lock:
+        ao = self._shared.get("active_orders")
+        try:
+            ao.clear()
+        except Exception:
+            # Recreate empty deque
+            self._shared["active_orders"] = deque()
+
+def _get_active_orders(self):
+    with self._cancel_lock:
+        ao = self._shared.get("active_orders")
+        try:
+            return list(ao)
+        except Exception:
+            return []
+
+ExecutionEngine.add_active_order = _add_active_order
+ExecutionEngine.clear_active_orders = _clear_active_orders
+ExecutionEngine.get_active_orders = _get_active_orders

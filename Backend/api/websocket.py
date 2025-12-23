@@ -7,6 +7,9 @@ import jwt
 from execution.wallet import wallet_manager
 from core.control_router import system_state, trading_state, ai_state
 from core.rate_limiter import check_rate_for_key
+import logging
+
+logger = logging.getLogger(__name__)
 
 ADMIN_API_KEY = os.environ.get("ADMIN_API_KEY")
 JWT_SECRET = os.environ.get("JWT_SECRET_KEY")
@@ -65,7 +68,7 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.send_json(data)
     except WebSocketDisconnect:
         data_engine.unsubscribe(queue)
-        print("Client disconnected")
+        logger.info("Client disconnected")
 
 # Startup event to launch the background task
 async def start_data_engine():

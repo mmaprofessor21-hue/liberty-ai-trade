@@ -2,7 +2,11 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-print("Attempting main.py logic...")
+import logging
+
+logger = logging.getLogger(__name__)
+
+logger.info("Attempting main.py logic...")
 try:
     from fastapi import FastAPI
     from fastapi.middleware.cors import CORSMiddleware
@@ -15,7 +19,7 @@ try:
     app.include_router(control_router, prefix="/api/v1")
     app.include_router(ws_router)
     
-    print("App created successfully.")
+    logger.info("App created successfully.")
 except Exception as e:
     import traceback
     traceback.print_exc()
