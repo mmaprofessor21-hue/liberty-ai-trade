@@ -40,6 +40,7 @@ jobs:
           path: |
             Backend/results.xml
             Backend/results.log
+            Backend/results_debug.txt
             Backend/.pytest_cache || true
 
   frontend-build:
