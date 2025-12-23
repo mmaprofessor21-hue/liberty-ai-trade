@@ -24,7 +24,11 @@ def trigger_emergency_stop():
     try:
         from execution.engine import execution_engine
         if hasattr(execution_engine, "cancel_all"):
-            execution_engine.cancel_all()
+            # Best-effort cancel; execution_engine.cancel_all is synchronous by design
+            try:
+                execution_engine.cancel_all()
+            except Exception:
+                logger.exception("execution_engine.cancel_all() threw an exception during emergency")
     except Exception:
         # Don't raise in emergency path; log and continue
         logger.exception("Failed to call execution_engine.cancel_all()")
