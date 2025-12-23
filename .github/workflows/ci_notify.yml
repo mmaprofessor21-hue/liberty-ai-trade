@@ -13,6 +13,7 @@ jobs:
 
     steps:
       - name: Notify Slack on CI failure
+        continue-on-error: true
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           REPO: ${{ github.repository }}
@@ -21,17 +22,24 @@ jobs:
           COMMIT: ${{ github.event.workflow_run.head_commit.id }}
           BRANCH: ${{ github.event.workflow_run.head_branch }}
         run: |
-          # Skip gracefully when webhook not configured
+          # Trim whitespace and CR/LF from the secret
+          SLACK_WEBHOOK="$(printf '%s' "$SLACK_WEBHOOK" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+
           if [ -z "$SLACK_WEBHOOK" ]; then
             echo "No SLACK_WEBHOOK set; skipping notification"
             exit 0
           fi
 
-          # Build payload without jq to avoid requiring extra packages in runner
-          PAYLOAD=$(printf '{"text":"CI Failure\nRepo: %s\nWorkflow: %s\nBranch: %s\nCommit: %s\n<%s|View run>"}' "$REPO" "$WORKFLOW" "$BRANCH" "$COMMIT" "$RUN_URL")
+          # Basic validation: must start with https://
+          if ! printf '%s' "$SLACK_WEBHOOK" | grep -qE '^https://'; then
+            echo "SLACK_WEBHOOK does not appear to be a valid HTTPS URL; skipping notification"
+            exit 0
+          fi
 
-          # Send notification but do not fail the job if Slack returns non-2xx
-          curl -s -S -X POST \
-            -H "Content-type: application/json" \
-            --data "$PAYLOAD" \
+          # Build payload safely and send via stdin to avoid shell-quoting issues
+          PAYLOAD=$(printf '{"text":"❌ CI FAILED\nRepo: %s\nWorkflow: %s\nBranch: %s\nCommit: %s\n<%s|View run>"}' "$REPO" "$WORKFLOW" "$BRANCH" "$COMMIT" "$RUN_URL")
+
+          printf '%s' "$PAYLOAD" | curl -s -S -X POST \
+            -H "Content-Type: application/json" \
+            --data-binary @- \
             "$SLACK_WEBHOOK" || echo "Slack notify failed or returned non-2xx; continuing"
